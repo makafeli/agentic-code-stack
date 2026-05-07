@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Agentic Code Stack — Skill Stack Wire Diagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #0d1b2a;
+    --paper:      #f1ead8;
+    --paper-2:    #e8dec5;
+    --line:       #2a3a4d;
+    --line-soft:  #99a3b1;
+    --accent:     #c1440e;
+    --accent-2:   #d99e3a;
+    --rail-doc:   #2c5f7c;
+    --rail-tok:   #6a3b2a;
+    --rail-mem:   #3d5e3a;
+    --rail-ext:   #5a3a6e;
+    --muted:      #5a6573;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background:
+      repeating-linear-gradient(0deg,  transparent 0 39px, rgba(13,27,42,0.05) 39px 40px),
+      repeating-linear-gradient(90deg, transparent 0 39px, rgba(13,27,42,0.05) 39px 40px),
+      var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .sheet {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 48px 56px 80px;
+    position: relative;
+  }
+
+  /* ── Header ───────────────────────────── */
+  .head {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+  }
+  .head h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .head h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .head .meta {
+    text-align: right;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+  .head .meta strong { color: var(--ink); display: block; font-size: 12px; }
+  .head .sub {
+    grid-column: 1 / -1;
+    font-size: 14px;
+    color: var(--muted);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  .hint {
+    margin: 0 0 36px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hint::before {
+    content: "▸";
+    color: var(--accent);
+  }
+
+  /* ── Section labels ───────────────────── */
+  .sec-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 22px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+  }
+  .sec-label::before {
+    content: "";
+    height: 1px;
+    width: 28px;
+    background: var(--ink);
+  }
+  .sec-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line-soft);
+  }
+  .sec-label .pill {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  /* ── Pipeline (top) ───────────────────── */
+  .pipeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin-bottom: 56px;
+  }
+  .stage {
+    position: relative;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    padding: 18px 18px 20px;
+    margin-right: 28px;
+    min-height: 230px;
+  }
+  .stage:last-child { margin-right: 0; }
+
+  .stage:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -28px;
+    width: 28px;
+    height: 1.5px;
+    background: var(--ink);
+  }
+  .stage:not(:last-child) .arrow-tip {
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%);
+    color: var(--ink);
+    font-size: 12px;
+    z-index: 2;
+  }
+
+  .stage .num {
+    position: absolute;
+    top: -14px;
+    left: 14px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .stage h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 19px;
+    margin: 6px 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .stage .role {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .stage ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* ── Hoverable item ───────────────────── */
+  .item {
+    padding: 6px 0 5px;
+    border-top: 1px dashed var(--line-soft);
+    cursor: help;
+    position: relative;
+    transition: background 0.15s ease;
+  }
+  .item:first-child { border-top: none; padding-top: 0; }
+  .item:hover { background: rgba(193, 68, 14, 0.06); }
+  .item .name {
+    font-weight: 700;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .item .name::after {
+    content: "⌘";
+    font-size: 10px;
+    color: var(--accent);
+    margin-left: auto;
+    opacity: 0.4;
+    transition: opacity 0.15s ease;
+  }
+  .item:hover .name::after { opacity: 1; }
+  .item .blurb {
+    display: block;
+    color: var(--muted);
+    font-size: 10.5px;
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+
+  /* ── Hover tooltip with commands ──────── */
+  .cmds {
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0;
+    padding: 0 0;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 0;
+    transition:
+      max-height 0.28s ease,
+      padding 0.2s ease,
+      margin-top 0.2s ease;
+    font-size: 10.5px;
+    line-height: 1.55;
+  }
+  .item:hover .cmds {
+    max-height: 400px;
+    padding: 10px 12px 11px;
+    margin-top: 7px;
+  }
+  .cmds .cmds-label {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 9px;
+    color: var(--accent-2);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .cmds code {
+    display: block;
+    background: rgba(255,255,255,0.07);
+    padding: 4px 7px;
+    margin: 3px 0;
+    border-left: 2px solid var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  .cmds .cmds-note {
+    color: rgba(241, 234, 216, 0.65);
+    font-size: 10px;
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* ── Rails (bottom) ───────────────────── */
+  .rails {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .rail {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--line-soft);
+    align-items: stretch;
+  }
+  .rail:last-child { border-bottom: none; }
+
+  .rail-head {
+    padding: 16px 18px;
+    border-right: 1.5px solid var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .rail-head::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--rail-color, var(--accent));
+  }
+  .rail-head .tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .rail-head h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 17px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .rail-head .desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  .rail-body {
+    padding: 14px 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+    align-content: flex-start;
+  }
+  .tool {
+    border: 1px solid var(--line);
+    background: var(--paper);
+    padding: 8px 12px 9px;
+    min-width: 220px;
+    flex: 1 1 240px;
+    max-width: 340px;
+    position: relative;
+    cursor: help;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .tool::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--rail-color, var(--accent));
+  }
+  .tool:hover {
+    background: rgba(193, 68, 14, 0.04);
+    border-color: var(--ink);
+  }
+  .tool b {
+    font-weight: 700;
+    font-size: 12.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tool b::after {
+    content: "⌘";
+    font-size: 10px;
+    color: var(--accent);
+    margin-left: auto;
+    opacity: 0.4;
+    transition: opacity 0.15s ease;
+  }
+  .tool:hover b::after { opacity: 1; }
+  .tool .where {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 1px;
+  }
+  .tool .what {
+    font-size: 11px;
+    color: var(--ink);
+    margin-top: 5px;
+    line-height: 1.4;
+  }
+  .tool .cmds {
+    margin-top: 0;
+    padding: 0;
+  }
+  .tool:hover .cmds {
+    max-height: 500px;
+    padding: 10px 12px 11px;
+    margin-top: 8px;
+  }
+
+  /* rail color overrides */
+  .rail.doc  { --rail-color: var(--rail-doc); }
+  .rail.tok  { --rail-color: var(--rail-tok); }
+  .rail.mem  { --rail-color: var(--rail-mem); }
+  .rail.ext  { --rail-color: var(--rail-ext); }
+
+  /* ── Bottom flow note ─────────────────── */
+  .footer-note {
+    margin-top: 38px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .footer-note hr {
+    border: none;
+    border-top: 1px solid var(--line-soft);
+    margin: 0;
+  }
+  .footer-note .pin {
+    width: 8px; height: 8px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+  }
+
+  @media print {
+    body { background: white; }
+    .sheet { padding: 24px; }
+    .cmds { max-height: none !important; padding: 10px 12px !important; margin-top: 7px !important; }
+  }
+
+  @media (max-width: 1100px) {
+    .pipeline { grid-template-columns: 1fr 1fr; }
+    .stage { margin-right: 0; margin-bottom: 32px; }
+    .stage:not(:last-child)::after,
+    .stage:not(:last-child) .arrow-tip { display: none; }
+    .rail { grid-template-columns: 1fr; }
+    .rail-head { border-right: none; border-bottom: 1.5px solid var(--ink); }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="head">
+    <h1>Agentic Code Stack <em>— Skill Stack</em></h1>
+    <div class="meta">
+      <strong>Wire Diagram</strong>
+      Workflow · v2 · hover-enabled
+    </div>
+    <div class="sub">From a vague idea to shipped code — pipeline stages flow left → right; support rails run continuously underneath.</div>
+  </header>
+
+  <p class="hint">Hover any tool to reveal its slash commands &amp; triggers</p>
+
+  <!-- ── Pipeline ────────────────────────────────── -->
+  <div class="sec-label">
+    <span class="pill">Pipeline</span>
+    Sequential — each stage feeds the next
+  </div>
+
+  <div class="pipeline">
+
+    <!-- Stage 1 -->
+    <div class="stage">
+      <span class="arrow-tip">▶</span>
+      <div class="num">1</div>
+      <h3>Prompt Shape</h3>
+      <div class="role">Sharpen the ask</div>
+      <ul>
+        <li class="item">
+          <span class="name">Metaprompt.com</span>
+          <span class="blurb">Web tool. Asks checkbox questions, rewrites your vague prompt into a specific one.</span>
+          <div class="cmds">
+            <div class="cmds-label">How to use</div>
+            <code>open metaprompt.com</code>
+            <code>paste rough prompt → answer checkboxes → copy improved prompt</code>
+            <div class="cmds-note">Happens before the agent session. No slash command.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage">
+      <span class="arrow-tip">▶</span>
+      <div class="num">2</div>
+      <h3>Align</h3>
+      <div class="role">Reach shared understanding</div>
+      <ul>
+        <li class="item">
+          <span class="name">Grill-me</span>
+          <span class="blurb">mattpocock — Claude interrogates you down a decision tree, recommending answers.</span>
+          <div class="cmds">
+            <div class="cmds-label">Slash commands</div>
+            <code>/grill-me</code>
+            <code>/grill-with-docs</code>
+            <div class="cmds-label" style="margin-top:8px;">Natural language</div>
+            <code>"grill me on this"</code>
+            <code>"poke holes in my design"</code>
+            <code>"play devil's advocate"</code>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">Superpowers brainstorm</span>
+          <span class="blurb">obra — Socratic discovery; auto-activates before any creative work.</span>
+          <div class="cmds">
+            <div class="cmds-label">Slash command</div>
+            <code>/superpowers:brainstorm</code>
+            <div class="cmds-note">Auto-engages when you describe a feature/component to build.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage">
+      <span class="arrow-tip">▶</span>
+      <div class="num">3</div>
+      <h3>Spec &amp; Plan</h3>
+      <div class="role">Write it down</div>
+      <ul>
+        <li class="item">
+          <span class="name">OpenSpec</span>
+          <span class="blurb">Fission-AI — proposal, specs, design, tasks. Specs live in repo.</span>
+          <div class="cmds">
+            <div class="cmds-label">Slash commands</div>
+            <code>/opsx:propose "&lt;idea&gt;"</code>
+            <code>/opsx:apply</code>
+            <code>/opsx:archive</code>
+            <code>/opsx:onboard</code>
+            <code>/opsx:verify</code>
+            <code>/opsx:continue</code>
+            <code>/opsx:ff</code>
+            <code>/opsx:bulk-archive</code>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">Superpowers /write-plan</span>
+          <span class="blurb">Turns design into junior-engineer-grade task list.</span>
+          <div class="cmds">
+            <div class="cmds-label">Slash commands</div>
+            <code>/superpowers:write-plan</code>
+            <code>/superpowers:execute-plan</code>
+            <code>/using-superpowers</code>
+            <div class="cmds-note">Plan tasks are 2–5 min micro-units, independently grabbable.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage">
+      <span class="arrow-tip">▶</span>
+      <div class="num">4</div>
+      <h3>Design</h3>
+      <div class="role">Make it not look AI-made</div>
+      <ul>
+        <li class="item">
+          <span class="name">Get Design (.md)</span>
+          <span class="blurb">342 brand DESIGN.md files — Apple, Stripe, Linear, etc. Real tokens, not vibes.</span>
+          <div class="cmds">
+            <div class="cmds-label">CLI</div>
+            <code>npx getdesign@latest add &lt;slug&gt;</code>
+            <div class="cmds-label" style="margin-top:8px;">Natural language (with skill)</div>
+            <code>"build a hero in Apple style"</code>
+            <code>"pricing page like Stripe"</code>
+            <code>"Notion warm colors + Linear minimal layout"</code>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">Open Design</span>
+          <span class="blurb">nexu-io — local-first OSS Claude Design alt. 19+ skills × 71 systems.</span>
+          <div class="cmds">
+            <div class="cmds-label">Run locally</div>
+            <code>pnpm tools-dev</code>
+            <div class="cmds-label" style="margin-top:8px;">Output formats</div>
+            <code>HTML / PDF / PPTX / ZIP / MP4 / MD</code>
+            <div class="cmds-note">Discovery form runs first. 5-dimensional self-critique before output.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage">
+      <div class="num">5</div>
+      <h3>Build</h3>
+      <div class="role">Implement, test, ship</div>
+      <ul>
+        <li class="item">
+          <span class="name">Superpowers TDD</span>
+          <span class="blurb">Red-green-refactor enforced. Tests fail first, code follows.</span>
+          <div class="cmds">
+            <div class="cmds-label">Slash commands</div>
+            <code>/superpowers:test-driven-development</code>
+            <code>/superpowers:subagent-driven-development</code>
+            <code>/superpowers:requesting-code-review</code>
+            <code>/superpowers:debugging</code>
+            <code>/superpowers:finishing-a-development-branch</code>
+            <code>/superpowers:writing-skills</code>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">SwiftUI Agent Skill</span>
+          <span class="blurb">twostraws — fixes the SwiftUI mistakes LLMs actually make. Apple stack.</span>
+          <div class="cmds">
+            <div class="cmds-label">Claude Code</div>
+            <code>/swiftui-pro</code>
+            <code>/swiftdata-pro</code>
+            <code>/swift-concurrency-pro</code>
+            <code>/swift-testing-pro</code>
+            <div class="cmds-label" style="margin-top:8px;">Codex</div>
+            <code>$swiftui-pro</code>
+            <div class="cmds-label" style="margin-top:8px;">Partial review</div>
+            <code>/swiftui-pro Check for deprecated API</code>
+            <code>/swiftui-pro Focus on accessibility</code>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ── Rails ────────────────────────────────────── -->
+  <div class="sec-label">
+    <span class="pill">Support Rails</span>
+    Always-on — taps into every stage above
+  </div>
+
+  <div class="rails">
+
+    <!-- Rail 01 — Docs & Context -->
+    <div class="rail doc">
+      <div class="rail-head">
+        <div class="tag">Layer 01</div>
+        <h4>Documentation &amp; Code Context</h4>
+        <div class="desc">Feed the agent the right facts. Shrink what gets read.</div>
+      </div>
+      <div class="rail-body">
+
+        <div class="tool">
+          <b>Ref MCP</b>
+          <div class="where">ref-tools · MCP</div>
+          <div class="what">Smart-chunked API docs. Returns ~200 relevant tokens instead of an 80k page.</div>
+          <div class="cmds">
+            <div class="cmds-label">MCP tools (auto-invoked)</div>
+            <code>ref_search_documentation(query)</code>
+            <code>ref_read_url(url)</code>
+            <code>search_web(query)</code>
+            <div class="cmds-note">No slash command. Agent calls these when docs are needed.</div>
+          </div>
+        </div>
+
+        <div class="tool">
+          <b>Context7</b>
+          <div class="where">Upstash · MCP + CLI</div>
+          <div class="what">Version-specific docs from source repos. Triggered by <code>use context7</code>.</div>
+          <div class="cmds">
+            <div class="cmds-label">In prompt</div>
+            <code>use context7</code>
+            <code>use library /supabase/supabase</code>
+            <div class="cmds-label" style="margin-top:8px;">Slash command</div>
+            <code>/context7:docs &lt;query&gt;</code>
+            <div class="cmds-label" style="margin-top:8px;">CLI</div>
+            <code>ctx7 setup --claude</code>
+            <code>ctx7 library &lt;name&gt; &lt;query&gt;</code>
+            <code>ctx7 docs &lt;libraryId&gt; &lt;query&gt;</code>
+          </div>
+        </div>
+
+        <div class="tool">
+          <b>Pitlane MCP</b>
+          <div class="where">eresende · MCP</div>
+          <div class="what">Tree-sitter index of your repo. Retrieves only the symbols the agent asked for.</div>
+          <div class="cmds">
+            <div class="cmds-label">MCP tools</div>
+            <code>ensure_project_ready</code>
+            <code>investigate(query)</code>
+            <code>locate_code(symbol)</code>
+            <code>search_content(snippet)</code>
+            <code>search_files(pattern)</code>
+            <code>trace_path(from, to)</code>
+            <code>read_code_unit(id)</code>
+            <code>find_usages(symbol)</code>
+            <code>watch_project</code>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Rail 02 — Token Efficiency -->
+    <div class="rail tok">
+      <div class="rail-head">
+        <div class="tag">Layer 02</div>
+        <h4>Token &amp; Output Efficiency</h4>
+        <div class="desc">Less context, less waste, longer sessions.</div>
+      </div>
+      <div class="rail-body">
+
+        <div class="tool">
+          <b>Caveman</b>
+          <div class="where">JuliusBrussee · Skill</div>
+          <div class="what">Compresses Claude's output ~65–75%. Six modes incl. classical-Chinese (wenyan).</div>
+          <div class="cmds">
+            <div class="cmds-label">Levels</div>
+            <code>/caveman lite</code>
+            <code>/caveman full</code>
+            <code>/caveman ultra</code>
+            <code>/caveman wenyan-lite</code>
+            <code>/caveman wenyan-full</code>
+            <code>/caveman wenyan-ultra</code>
+            <div class="cmds-label" style="margin-top:8px;">Independent commands</div>
+            <code>/caveman-commit</code>
+            <code>/caveman-review</code>
+            <code>/caveman-stats</code>
+            <code>/caveman-stats --since 7d</code>
+            <code>/caveman-stats --share</code>
+            <div class="cmds-label" style="margin-top:8px;">Natural language</div>
+            <code>"caveman mode" / "be brief"</code>
+            <code>"stop caveman" / "normal mode"</code>
+          </div>
+        </div>
+
+        <div class="tool">
+          <b>Pitlane MCP</b>
+          <div class="where">eresende · MCP</div>
+          <div class="what">Cuts input tokens too — no more whole-file dumps.</div>
+          <div class="cmds">
+            <div class="cmds-label">Same MCP tools as Layer 01</div>
+            <code>read_code_unit(id)</code>
+            <code>investigate(query)</code>
+            <div class="cmds-note">Read symbols, not files. Composite responses include read_state to skip unchanged content.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Rail 03 — Memory & Tracking -->
+    <div class="rail mem">
+      <div class="rail-head">
+        <div class="tag">Layer 03</div>
+        <h4>Memory &amp; Task Tracking</h4>
+        <div class="desc">Survive context loss. Cross-session continuity.</div>
+      </div>
+      <div class="rail-body">
+
+        <div class="tool">
+          <b>Beads (bd)</b>
+          <div class="where">gastownhall · CLI + Plugin</div>
+          <div class="what">Dependency-aware issue graph in your repo. <code>bd ready</code> finds unblocked work.</div>
+          <div class="cmds">
+            <div class="cmds-label">CLI — daily flow</div>
+            <code>bd prime</code>
+            <code>bd ready</code>
+            <code>bd show &lt;id&gt;</code>
+            <code>bd update &lt;id&gt; --claim</code>
+            <code>bd close &lt;id&gt; --reason "..."</code>
+            <code>bd create "title" -t feature -p 1</code>
+            <code>bd remember "insight"</code>
+            <code>bd dep add &lt;id&gt; &lt;parent&gt; --type discovered-from</code>
+            <div class="cmds-label" style="margin-top:8px;">Plugin slash commands</div>
+            <code>/beads:ready</code>
+            <code>/beads:create</code>
+            <code>/beads:workflow</code>
+            <code>@task-agent</code>
+          </div>
+        </div>
+
+        <div class="tool">
+          <b>OpenSpec</b>
+          <div class="where">Fission-AI · Skills</div>
+          <div class="what">Specs as durable memory. Context doesn't die when the chat ends.</div>
+          <div class="cmds">
+            <div class="cmds-label">Slash commands</div>
+            <code>/opsx:propose "&lt;idea&gt;"</code>
+            <code>/opsx:apply</code>
+            <code>/opsx:archive</code>
+            <code>/opsx:verify</code>
+            <div class="cmds-note">Specs live in openspec/specs/ — readable by every future agent session.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Rail 04 — External -->
+    <div class="rail ext">
+      <div class="rail-head">
+        <div class="tag">Layer 04</div>
+        <h4>External Data</h4>
+        <div class="desc">Live web access when training data isn't enough.</div>
+      </div>
+      <div class="rail-body">
+
+        <div class="tool">
+          <b>Brightdata MCP</b>
+          <div class="where">Bright Data · MCP</div>
+          <div class="what">Web scraping + SERP, bypasses bot detection. 5k free reqs/month. Amazon, LinkedIn, Maps, Reddit, etc.</div>
+          <div class="cmds">
+            <div class="cmds-label">Rapid mode (free)</div>
+            <code>search_engine(query)</code>
+            <code>search_engine_batch(queries)</code>
+            <code>scrape_as_markdown(url)</code>
+            <code>scrape_batch(urls)</code>
+            <div class="cmds-label" style="margin-top:8px;">Pro mode adds</div>
+            <code>browser_* (13 tools)</code>
+            <code>amazon_* / linkedin_* / google_maps_*</code>
+            <code>web_unlocker_*</code>
+            <div class="cmds-label" style="margin-top:8px;">Setup</div>
+            <code>claude mcp add --transport sse brightdata "https://mcp.brightdata.com/sse?token=...&pro=1"</code>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+    <span class="pin"></span>
+    <hr>
+    <span>Read left → right · rails active throughout · hover for commands</span>
+  </div>
+
+</div>
+</body>
+</html>
