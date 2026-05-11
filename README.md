@@ -25,7 +25,8 @@ agentic-code-stack/
     ├── 01-docs-context.md
     ├── 02-token-efficiency.md
     ├── 03-memory-tracking.md
-    └── 04-external-data.md
+    ├── 04-external-data.md
+    └── 05-agent-interfaces.md
 ```
 
 ## How to use

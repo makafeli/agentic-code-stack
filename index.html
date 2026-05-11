@@ -830,6 +830,38 @@
       </div>
     </div>
 
+    <!-- Rail 05 — Agent Interfaces -->
+    <div class="rail">
+      <div class="rail-head">
+        <div class="tag">NEW</div>
+        <h4>Agent Interfaces</h4>
+        <div class="desc">Structured, compound-query service access through generated CLIs</div>
+      </div>
+      <div class="rail-body">
+        <div class="tool">
+          <b>Printing Press</b>
+          <div class="where">printingpress.dev</div>
+          <div class="what">Generate agent-native Go CLIs from API specs, HAR files, or URLs. One command outputs Go binary + Claude Code skill + OpenClaw skill + MCP server. Every CLI ships with local SQLite mirror, compound queries, and structured output.</div>
+          <div class="cmds">
+            <div class="cmds-label">Setup</div>
+            <code>go install github.com/mvanhorn/cli-printing-press/v4/cmd/printing-press@latest</code>
+            <code>npx -y @mvanhorn/printing-press install starter-pack</code>
+            <code>git clone https://github.com/mvanhorn/cli-printing-press.git</code>
+          </div>
+        </div>
+        <div class="tool">
+          <b>Library</b>
+          <div class="where">github.com/mvanhorn/printing-press-library</div>
+          <div class="what">70+ community-built CLIs: Stripe, Linear, Notion, Slack, Hacker News, Amazon Seller, Google Flights, ESPN, and more. Browse by category or search by service name.</div>
+          <div class="cmds">
+            <div class="cmds-label">Browse</div>
+            <code>npx -y @mvanhorn/printing-press search "stripe"</code>
+            <code>npx -y @mvanhorn/printing-press install flight-goat</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="footer-note">

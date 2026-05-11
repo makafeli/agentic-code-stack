@@ -67,3 +67,4 @@ The agent should:
 - For documentation lookups → use **Ref MCP** or **Context7** (Rail 01), not Brightdata.
 - For codebase navigation → use **Pitlane MCP** (Rail 01), not Brightdata.
 - Brightdata is for the *external* web only.
+- For structured service interaction (CLI-based API access, compound queries) → use **Printing Press** (Rail 05), not Brightdata

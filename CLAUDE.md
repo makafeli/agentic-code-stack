@@ -72,6 +72,9 @@ This project uses **beads (`bd`)** for issue tracking instead of markdown TODOs.
 When the task needs live web data:
 - **Brightdata MCP** — `search_engine`, `scrape_as_markdown`, `search_engine_batch`, `scrape_batch` (Rapid mode). Pro mode adds 60+ tools for Amazon, LinkedIn, Maps, Reddit, etc.
 
+### Agent Interfaces
+- **Rail 05 — Agent Interfaces:** Printing Press (CLI generation from APIs, library of 70+ CLIs)
+
 ---
 
 ## Recommended order of operations
@@ -93,6 +96,6 @@ When the task needs live web data:
 
 For deeper reference on any tool, see:
 - `pipeline/01-prompt-shape.md` … `pipeline/05-build.md`
-- `rails/01-docs-context.md` … `rails/04-external-data.md`
+- `rails/01-docs-context.md` … `rails/05-agent-interfaces.md`
 - `INSTALL.md` for one-time setup commands
 - `stack-diagram.html` for the visual map (open in a browser; hover for commands)
