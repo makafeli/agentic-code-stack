@@ -134,7 +134,7 @@
   .pipeline {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 0;
     margin-bottom: 56px;
   }
@@ -145,6 +145,9 @@
     padding: 18px 18px 20px;
     margin-right: 28px;
     min-height: 230px;
+  }
+  .stage.wide {
+    grid-column: span 2;
   }
   .stage:last-child { margin-right: 0; }
 
@@ -187,6 +190,28 @@
     font-size: 19px;
     margin: 6px 0 4px;
     letter-spacing: -0.01em;
+  }
+  .build-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 18px;
+    margin-top: 0;
+  }
+  .build-col h5 {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    margin: 0 0 6px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--ink-2);
+  }
+  .build-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
   .stage .role {
     font-size: 10px;
@@ -444,9 +469,11 @@
 
   @media (max-width: 1100px) {
     .pipeline { grid-template-columns: 1fr 1fr; }
+    .stage.wide { grid-column: span 1; }
     .stage { margin-right: 0; margin-bottom: 32px; }
     .stage:not(:last-child)::after,
     .stage:not(:last-child) .arrow-tip { display: none; }
+    .build-columns { grid-template-columns: 1fr; gap: 10px 0; }
     .rail { grid-template-columns: 1fr; }
     .rail-head { border-right: none; border-bottom: 1.5px solid var(--ink); }
   }
@@ -596,11 +623,14 @@
     </div>
 
     <!-- Stage 5 -->
-    <div class="stage">
+    <div class="stage wide">
       <div class="num">5</div>
       <h3>Build</h3>
       <div class="role">Implement, test, ship</div>
-      <ul>
+      <div class="build-columns">
+        <div class="build-col">
+          <h5>Implement</h5>
+          <ul>
         <li class="item">
           <span class="name">npx skills add</span>
           <span class="blurb">Install skills into any agent across 55+ platforms; the package manager for the agent skills ecosystem.</span>
@@ -620,30 +650,6 @@
         <li class="item">
           <span class="name">code-structure</span>
           <span class="blurb">Service Layer Architecture: Actions orchestrate domain rules, Service Layer centralizes reusable operational mechanics.</span>
-        </li>
-        <li class="item">
-          <span class="name">improve-codebase-architecture</span>
-          <span class="blurb">Surface architectural friction: find shallow modules, deepen them, document decisions as ADRs.</span>
-        </li>
-        <li class="item">
-          <span class="name">/superpowers:requesting-code-review</span>
-          <span class="blurb">Review against plan; critical issues block progress.</span>
-          <div class="cmds">
-            <div class="cmds-label">Slash command</div>
-            <code>/superpowers:requesting-code-review</code>
-          </div>
-        </li>
-        <li class="item">
-          <span class="name">check-pr / greploop</span>
-          <span class="blurb">Automated PR review: check comments + CI, loop review→fix→re-review until 5/5.</span>
-        </li>
-        <li class="item">
-          <span class="name">/superpowers:finishing-a-development-branch</span>
-          <span class="blurb">Verify tests pass, then merge / PR / discard.</span>
-          <div class="cmds">
-            <div class="cmds-label">Slash command</div>
-            <code>/superpowers:finishing-a-development-branch</code>
-          </div>
         </li>
         <li class="item">
           <span class="name">TDD</span>
@@ -669,7 +675,38 @@
             <code>/swiftui-pro Focus on accessibility</code>
           </div>
         </li>
-      </ul>
+          </ul>
+        </div>
+        <div class="build-col">
+          <h5>Review &amp; Finish</h5>
+          <ul>
+        <li class="item">
+          <span class="name">improve-codebase-architecture</span>
+          <span class="blurb">Surface architectural friction: find shallow modules, deepen them, document decisions as ADRs.</span>
+        </li>
+        <li class="item">
+          <span class="name">/superpowers:requesting-code-review</span>
+          <span class="blurb">Review against plan; critical issues block progress.</span>
+          <div class="cmds">
+            <div class="cmds-label">Slash command</div>
+            <code>/superpowers:requesting-code-review</code>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">check-pr / greploop</span>
+          <span class="blurb">Automated PR review: check comments + CI, loop review→fix→re-review until 5/5.</span>
+        </li>
+        <li class="item">
+          <span class="name">/superpowers:finishing-a-development-branch</span>
+          <span class="blurb">Verify tests pass, then merge / PR / discard.</span>
+          <div class="cmds">
+            <div class="cmds-label">Slash command</div>
+            <code>/superpowers:finishing-a-development-branch</code>
+          </div>
+        </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
   </div>
