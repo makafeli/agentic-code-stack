@@ -34,8 +34,12 @@ Once aligned, write it down:
 - Open Design (`pnpm tools-dev`) is available locally if the user runs it.
 
 ### 5. Build
+- **`npx skills add`** — install skills into any agent across 55+ platforms; the package manager for the agent skills ecosystem (`npx skills add &lt;repo&gt;`)
 - **`/superpowers:subagent-driven-development`** — parallel implementation with built-in review
+- **`code-structure`** — Service Layer Architecture: Actions orchestrate domain rules, Service Layer centralizes reusable operational mechanics. Prevents duplicated operational logic
+- **`improve-codebase-architecture`** — surface architectural friction: find shallow modules, deepen them, document decisions as ADRs. Uses precise vocabulary: depth, seams, locality, leverage
 - **`/superpowers:requesting-code-review`** — review against plan; critical issues block progress
+- **`check-pr` / `greploop`** — automated PR review: check for unresolved comments and failing CI, then loop review→fix→re-review until 5/5 confidence
 - **`/superpowers:finishing-a-development-branch`** — verify tests pass, then merge / PR / discard
 - **TDD is enforced** — write failing test first, then minimal code, then refactor. No exceptions.
 - **`/swiftui-pro`** + **`/swiftdata-pro`** + **`/swift-concurrency-pro`** + **`/swift-testing-pro`** — Apple-platform projects only
@@ -95,7 +99,7 @@ When the task needs live web data:
 ## Detail files
 
 For deeper reference on any tool, see:
-- `pipeline/01-prompt-shape.md` … `pipeline/05-build.md`
+- `pipeline/01-prompt-shape.md` … `pipeline/05-build.md` (also covers Vercel Skills, `code-structure`, `improve-codebase-architecture`, `check-pr`, `greploop`)
 - `rails/01-docs-context.md` … `rails/05-agent-interfaces.md`
 - `INSTALL.md` for one-time setup commands
 - `stack-diagram.html` for the visual map (open in a browser; hover for commands)
