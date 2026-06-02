@@ -8,9 +8,9 @@ AI coding agents are powerful but unstructured by default. Without a shared ment
 
 The stack organizes agent work into two categories:
 
-**Pipeline** -- sequential stages the agent moves through: Shape (the prompt arrives structured), Align (discovery before code), Spec and Plan (write it down), Design (when UI is involved), Build (implement with reviews). Pipeline stages give the agent *stage awareness*: it knows where it is in the process and what the current job is.
+**Pipeline** -- sequential stages the agent moves through: Align (discovery before code), Spec and Plan (write it down), Design (when UI is involved), Build (implement with reviews). Pipeline stages give the agent *stage awareness*: it knows where it is in the process and what the current job is.
 
-**Rails** -- always-on capabilities that run alongside every pipeline stage: documentation lookups (Context7, Ref MCP), token efficiency (Caveman), memory and task tracking (Beads), and external data access (Brightdata MCP). Rails give the agent *tool awareness*: instead of reaching for raw grep or reading whole files, it picks the purpose-built tool.
+**Rails** -- always-on capabilities that run alongside every pipeline stage: documentation lookups (Context7, Ref MCP), token efficiency (Caveman, graphify), memory and task tracking (Beads), external data access (Bright Data CLI), and agent interfaces (Printing Press). Rails give the agent *tool awareness*: instead of reaching for raw grep or reading whole files, it picks the purpose-built tool.
 
 Pipeline answers "what phase am I in?" Rails answer "what should I use to do it?"
 
@@ -26,6 +26,10 @@ Single-session spikes, trivial bug fixes, and exploratory work do not need the f
 
 Delete tools you do not use. Add tools you do. The stack is a starting point, not a cage. Add project-specific rails where it makes sense -- a compliance rail for HIPAA projects, a localization rail for multi-language apps, a performance rail for latency-sensitive work.
 
+## Portable core + personal overlay
+
+The pipeline and rails are the **portable core** -- anyone can install them. The `overlay/` directory is a **personal layer**: a private skill suite (gstack), the maintainer's Claude harness, and per-language profiles. The rule is simple -- public tools are the default; the overlay names the personal equivalent for each stage. Delete `overlay/` and the core still stands.
+
 ## The meta point
 
-This stack was built using the stack. The design was aligned with `/brainstorm`, the plan was written with `/write-plan`, the implementation ran through `/subagent-driven-development`, and the tasks are tracked in Beads. Eat your own dog food.
+This stack was built using the stack. The design was aligned with `/superpowers:brainstorming`, the plan was written with `/superpowers:write-plan`, the implementation ran through `/superpowers:subagent-driven-development`, and the work is tracked in Beads. Eat your own dog food.

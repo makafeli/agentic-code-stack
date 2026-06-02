@@ -1,4 +1,4 @@
-# Stage 2 — Align
+# Stage 1 — Align
 
 **Goal:** Reach shared understanding *before* writing any code. Surface assumptions, edge cases, and dependencies between decisions.
 
@@ -29,10 +29,14 @@ A 3-sentence skill that flips the script: instead of waiting for the user to spe
 The same Socratic discovery, but as part of a larger workflow that continues into spec writing, planning, and TDD implementation. Auto-activates before any creative work (creating features, building components, modifying behaviour).
 
 **Trigger:**
-- `/superpowers:brainstorm`
+- `/superpowers:brainstorming`
 - Or just describe what you want to build — Superpowers detects creative-work intent and auto-engages.
 
 **Output:** refined requirements, presented in chunks short enough to read and sign off on.
+
+### `↳ Overlay (gstack)` — Office Hours
+
+If gstack is installed, **`/office-hours`** runs YC-style forcing questions (startup mode) or design-thinking brainstorming (builder mode) and saves a design doc. Use it for product/idea-level discovery; use grill-me / brainstorm for implementation-level alignment. See `overlay/README.md`.
 
 ## When to use which
 
@@ -40,7 +44,7 @@ The same Socratic discovery, but as part of a larger workflow that continues int
 |---|---|
 | Greenfield project, no existing docs | `/grill-me` |
 | Brownfield project with `CONTEXT.md` / ADRs | `/grill-with-docs` |
-| You want the alignment to flow into a full plan | `/superpowers:brainstorm` |
+| You want the alignment to flow into a full plan | `/superpowers:brainstorming` |
 | User explicitly says "grill me" or "stress-test this" | `/grill-me` |
 | Quick yes/no on a small change | Skip — go to Spec & Plan |
 

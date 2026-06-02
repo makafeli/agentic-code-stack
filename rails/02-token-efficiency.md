@@ -54,6 +54,24 @@ Compresses prose output ~65–75% by dropping articles, fragments, abbreviations
 >
 > Caveman ultra: "Inline obj prop → new ref → re-render. Memo it."
 
+### graphify — `/graphify`
+
+Turns any folder (code, docs, papers, images, video) into a queryable knowledge graph in `graphify-out/`. Token angle: query the graph instead of re-reading files — a broad "how does X work?" answer comes from one `graphify query` call, not a file sweep.
+
+**Install:** `uv tool install graphifyy` (or `pip install graphifyy`).
+
+| Command | Purpose |
+|---|---|
+| `/graphify [path\|url]` | Build the graph (clones a GitHub URL first if given) |
+| `graphify query "<question>"` | BFS traversal — broad context (`--dfs` to trace a path) |
+| `graphify path "A" "B"` | Shortest path between two concepts |
+| `graphify explain "X"` | Plain-language explanation of one node |
+| `/graphify --update` | Incremental re-extract of changed files |
+| `/graphify --watch` | Auto-rebuild on code changes |
+| `graphify claude install` | Write an always-on `## graphify` block into the project `CLAUDE.md` |
+
+**Agent rule:** if `graphify-out/graph.json` exists and the user asks a codebase question, run `graphify query` directly — don't re-extract, don't read whole files.
+
 ### Pitlane MCP (token side)
 
 Pitlane belongs to both this rail and the Docs/Context rail. From a token-efficiency perspective, its job is to **shrink input**: instead of reading 800 lines to find one function, retrieve 30 lines.

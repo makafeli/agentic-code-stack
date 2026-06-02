@@ -75,20 +75,6 @@ A persistent, dependency-aware issue tracker stored as a Dolt database in `.bead
 - **Contributor (`--contributor`):** open-source contributors who want to track their own tasks without polluting the upstream repo.
 - **Stealth (`bd prime --stealth`):** personal tracking on a shared project, no commits.
 
-### OpenSpec (memory side)
-
-OpenSpec is in Stage 3 of the pipeline, but it's also a memory tool: specs are durable context that survives session loss. When a new agent joins the project, `openspec/specs/` tells it how the system works.
-
-See `pipeline/03-spec-plan.md` for commands.
-
-## Synergy: beads + OpenSpec
-
-Use them together:
-- **OpenSpec** captures *what the system should do* (specs) and *what we're changing* (proposals).
-- **Beads** captures *what work is in flight* and *what's blocked on what*.
-
-A typical flow: `/opsx:propose` generates `tasks.md` → manually create matching beads → `bd ready` to find next task → claim → implement → close → `/opsx:archive` when the change is done.
-
 ## Anti-patterns
 
 - ❌ Creating `TODO.md` or `MEMORY.md` files. Use `bd` instead.

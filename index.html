@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <title>Agentic Code Stack — Skill Stack Wire Diagram</title>
+<link rel="canonical" href="https://makafeli.github.io/agentic-code-stack/">
+<meta name="description" content="Agentic Code Stack — pipeline + rails for AI coding agents. Align, Spec & Plan, Design, Build.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&display=swap" rel="stylesheet">
@@ -134,7 +137,7 @@
   .pipeline {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 0;
     margin-bottom: 56px;
   }
@@ -486,9 +489,9 @@
     <h1>Agentic Code Stack <em>— Skill Stack</em></h1>
     <div class="meta">
       <strong>Wire Diagram</strong>
-      Workflow · v2 · hover-enabled
+      Workflow · v3 · hover-enabled
     </div>
-    <div class="sub">From a vague idea to shipped code — pipeline stages flow left → right; support rails run continuously underneath.</div>
+    <div class="sub">From a vague idea to shipped code — pipeline stages flow left → right; support rails run continuously underneath. · <a href="https://makafeli.github.io/agentic-code-stack/" style="color:var(--accent);">makafeli.github.io/agentic-code-stack</a></div>
   </header>
 
   <p class="hint">Hover any tool to reveal its slash commands &amp; triggers</p>
@@ -505,26 +508,6 @@
     <div class="stage">
       <span class="arrow-tip">▶</span>
       <div class="num">1</div>
-      <h3>Prompt Shape</h3>
-      <div class="role">Sharpen the ask</div>
-      <ul>
-        <li class="item">
-          <span class="name">Metaprompt.com</span>
-          <span class="blurb">Web tool. Asks checkbox questions, rewrites your vague prompt into a specific one.</span>
-          <div class="cmds">
-            <div class="cmds-label">How to use</div>
-            <code>open metaprompt.com</code>
-            <code>paste rough prompt → answer checkboxes → copy improved prompt</code>
-            <div class="cmds-note">Happens before the agent session. No slash command.</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Stage 2 -->
-    <div class="stage">
-      <span class="arrow-tip">▶</span>
-      <div class="num">2</div>
       <h3>Align</h3>
       <div class="role">Reach shared understanding</div>
       <ul>
@@ -553,28 +536,13 @@
       </ul>
     </div>
 
-    <!-- Stage 3 -->
+    <!-- Stage 2 -->
     <div class="stage">
       <span class="arrow-tip">▶</span>
-      <div class="num">3</div>
+      <div class="num">2</div>
       <h3>Spec &amp; Plan</h3>
       <div class="role">Write it down</div>
       <ul>
-        <li class="item">
-          <span class="name">OpenSpec</span>
-          <span class="blurb">Fission-AI — proposal, specs, design, tasks. Specs live in repo.</span>
-          <div class="cmds">
-            <div class="cmds-label">Slash commands</div>
-            <code>/opsx:propose "&lt;idea&gt;"</code>
-            <code>/opsx:apply</code>
-            <code>/opsx:archive</code>
-            <code>/opsx:onboard</code>
-            <code>/opsx:verify</code>
-            <code>/opsx:continue</code>
-            <code>/opsx:ff</code>
-            <code>/opsx:bulk-archive</code>
-          </div>
-        </li>
         <li class="item">
           <span class="name">Superpowers /write-plan</span>
           <span class="blurb">Turns design into junior-engineer-grade task list.</span>
@@ -584,15 +552,16 @@
             <code>/superpowers:execute-plan</code>
             <code>/using-superpowers</code>
             <div class="cmds-note">Plan tasks are 2–5 min micro-units, independently grabbable.</div>
+            <div class="cmds-note">↳ Overlay (gstack): /autoplan runs CEO/design/eng/DX reviews with auto-decisions.</div>
           </div>
         </li>
       </ul>
     </div>
 
-    <!-- Stage 4 -->
+    <!-- Stage 3 -->
     <div class="stage">
       <span class="arrow-tip">▶</span>
-      <div class="num">4</div>
+      <div class="num">3</div>
       <h3>Design</h3>
       <div class="role">Make it not look AI-made</div>
       <ul>
@@ -609,36 +578,26 @@
           </div>
         </li>
         <li class="item">
-          <span class="name">Open Design</span>
-          <span class="blurb">nexu-io — local-first OSS Claude Design alt. 19+ skills × 71 systems.</span>
+          <span class="name">Claude Design</span>
+          <span class="blurb">Anthropic's built-in frontend-design skill — distinctive, production-grade UI.</span>
           <div class="cmds">
-            <div class="cmds-label">Run locally</div>
-            <code>pnpm tools-dev</code>
-            <div class="cmds-label" style="margin-top:8px;">Output formats</div>
-            <code>HTML / PDF / PPTX / ZIP / MP4 / MD</code>
-            <div class="cmds-note">Discovery form runs first. 5-dimensional self-critique before output.</div>
+            <div class="cmds-label">Skill</div>
+            <code>frontend-design (auto-engages on UI work)</code>
+            <div class="cmds-note">↳ Overlay (gstack): /design-review · /design-html · /design-consultation</div>
           </div>
         </li>
       </ul>
     </div>
 
-    <!-- Stage 5 -->
+    <!-- Stage 4 -->
     <div class="stage wide">
-      <div class="num">5</div>
+      <div class="num">4</div>
       <h3>Build</h3>
       <div class="role">Implement, test, ship</div>
       <div class="build-columns">
         <div class="build-col">
           <h5>Implement</h5>
           <ul>
-        <li class="item">
-          <span class="name">npx skills add</span>
-          <span class="blurb">Install skills into any agent across 55+ platforms; the package manager for the agent skills ecosystem.</span>
-          <div class="cmds">
-            <div class="cmds-label">Setup</div>
-            <code>npx skills add &lt;repo&gt;</code>
-          </div>
-        </li>
         <li class="item">
           <span class="name">/superpowers:subagent-driven-development</span>
           <span class="blurb">Parallel implementation with built-in review.</span>
@@ -660,20 +619,8 @@
           </div>
         </li>
         <li class="item">
-          <span class="name">SwiftUI Agent Skill</span>
-          <span class="blurb">twostraws — fixes the SwiftUI mistakes LLMs actually make. Apple stack.</span>
-          <div class="cmds">
-            <div class="cmds-label">Claude Code</div>
-            <code>/swiftui-pro</code>
-            <code>/swiftdata-pro</code>
-            <code>/swift-concurrency-pro</code>
-            <code>/swift-testing-pro</code>
-            <div class="cmds-label" style="margin-top:8px;">Codex</div>
-            <code>$swiftui-pro</code>
-            <div class="cmds-label" style="margin-top:8px;">Partial review</div>
-            <code>/swiftui-pro Check for deprecated API</code>
-            <code>/swiftui-pro Focus on accessibility</code>
-          </div>
+          <span class="name">Language profiles</span>
+          <span class="blurb">Per-language reviewers/test tools in overlay/languages/ — Swift (swiftui-pro…), React (typescript-reviewer + frontend-design), Java (java-reviewer + springboot-*).</span>
         </li>
           </ul>
         </div>
@@ -693,8 +640,13 @@
           </div>
         </li>
         <li class="item">
-          <span class="name">check-pr / greploop</span>
-          <span class="blurb">Automated PR review: check comments + CI, loop review→fix→re-review until 5/5.</span>
+          <span class="name">CodeRabbit + /autofix</span>
+          <span class="blurb">CodeRabbit reviews the PR on GitHub; /autofix applies its review threads with per-change approval.</span>
+          <div class="cmds">
+            <div class="cmds-label">Slash command</div>
+            <code>/autofix</code>
+            <div class="cmds-note">↳ Overlay (gstack): /review · /qa · /ship · /land-and-deploy</div>
+          </div>
         </li>
         <li class="item">
           <span class="name">/superpowers:finishing-a-development-branch</span>
@@ -813,6 +765,20 @@
         </div>
 
         <div class="tool">
+          <b>graphify</b>
+          <div class="where">/graphify · Skill</div>
+          <div class="what">Codebase → knowledge graph in graphify-out/. Query the graph instead of re-reading files.</div>
+          <div class="cmds">
+            <div class="cmds-label">Commands</div>
+            <code>/graphify [path|url]</code>
+            <code>graphify query "&lt;question&gt;"</code>
+            <code>graphify explain "&lt;node&gt;"</code>
+            <code>/graphify --update</code>
+            <div class="cmds-note">If graphify-out/graph.json exists, treat codebase questions as graph queries.</div>
+          </div>
+        </div>
+
+        <div class="tool">
           <b>Pitlane MCP</b>
           <div class="where">eresende · MCP</div>
           <div class="what">Cuts input tokens too — no more whole-file dumps.</div>
@@ -858,20 +824,6 @@
           </div>
         </div>
 
-        <div class="tool">
-          <b>OpenSpec</b>
-          <div class="where">Fission-AI · Skills</div>
-          <div class="what">Specs as durable memory. Context doesn't die when the chat ends.</div>
-          <div class="cmds">
-            <div class="cmds-label">Slash commands</div>
-            <code>/opsx:propose "&lt;idea&gt;"</code>
-            <code>/opsx:apply</code>
-            <code>/opsx:archive</code>
-            <code>/opsx:verify</code>
-            <div class="cmds-note">Specs live in openspec/specs/ — readable by every future agent session.</div>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -885,21 +837,18 @@
       <div class="rail-body">
 
         <div class="tool">
-          <b>Brightdata MCP</b>
-          <div class="where">Bright Data · MCP</div>
-          <div class="what">Web scraping + SERP, bypasses bot detection. 5k free reqs/month. Amazon, LinkedIn, Maps, Reddit, etc.</div>
+          <b>Bright Data CLI</b>
+          <div class="where">bdata · CLI</div>
+          <div class="what">Scrape, SERP search, and structured extraction from 40+ platforms. Anti-bot + CAPTCHA handled. 5k free reqs/month.</div>
           <div class="cmds">
-            <div class="cmds-label">Rapid mode (free)</div>
-            <code>search_engine(query)</code>
-            <code>search_engine_batch(queries)</code>
-            <code>scrape_as_markdown(url)</code>
-            <code>scrape_batch(urls)</code>
-            <div class="cmds-label" style="margin-top:8px;">Pro mode adds</div>
-            <code>browser_* (13 tools)</code>
-            <code>amazon_* / linkedin_* / google_maps_*</code>
-            <code>web_unlocker_*</code>
-            <div class="cmds-label" style="margin-top:8px;">Setup</div>
-            <code>claude mcp add --transport sse brightdata "https://mcp.brightdata.com/sse?token=...&pro=1"</code>
+            <div class="cmds-label">Commands</div>
+            <code>bdata login</code>
+            <code>bdata scrape &lt;url&gt;</code>
+            <code>bdata search "&lt;query&gt;" --json</code>
+            <code>bdata pipelines &lt;type&gt; …</code>
+            <code>bdata budget</code>
+            <div class="cmds-label" style="margin-top:8px;">Install</div>
+            <code>npm i -g @brightdata/cli</code>
           </div>
         </div>
 
@@ -943,7 +892,7 @@
   <div class="footer-note">
     <span class="pin"></span>
     <hr>
-    <span>Read left → right · rails active throughout · hover for commands</span>
+    <span>Read left → right · rails active throughout · ↳ overlay = gstack/personal layer · hover for commands</span>
   </div>
 
 </div>
