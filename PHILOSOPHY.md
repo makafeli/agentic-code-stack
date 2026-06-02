@@ -10,7 +10,7 @@ The stack organizes agent work into two categories:
 
 **Pipeline** -- sequential stages the agent moves through: Align (discovery before code), Spec and Plan (write it down), Design (when UI is involved), Build (implement with reviews). Pipeline stages give the agent *stage awareness*: it knows where it is in the process and what the current job is.
 
-**Rails** -- always-on capabilities that run alongside every pipeline stage: documentation lookups (Context7, Ref MCP), token efficiency (Caveman, graphify), memory and task tracking (Beads), external data access (Bright Data CLI), and agent interfaces (Printing Press). Rails give the agent *tool awareness*: instead of reaching for raw grep or reading whole files, it picks the purpose-built tool.
+**Rails** -- always-on capabilities that run alongside every pipeline stage: documentation lookups (Context7, Ref MCP), token efficiency (Caveman, graphify), external data access (Bright Data CLI), and agent interfaces (Printing Press). Rails give the agent *tool awareness*: instead of reaching for raw grep or reading whole files, it picks the purpose-built tool.
 
 Pipeline answers "what phase am I in?" Rails answer "what should I use to do it?"
 
@@ -20,7 +20,7 @@ Multi-session features, team environments, complex codebases, and anything with 
 
 ## When to go lightweight
 
-Single-session spikes, trivial bug fixes, and exploratory work do not need the full pipeline. Keep the rails active (they cost almost nothing once installed) and drop the pipeline stages you do not need. Even for a quick fix, `bd create` beats a stray TODO comment.
+Single-session spikes, trivial bug fixes, and exploratory work do not need the full pipeline. Keep the rails active (they cost almost nothing once installed) and drop the pipeline stages you do not need. Even for a quick fix, a clear commit message beats a stray TODO comment.
 
 ## How to customize
 
@@ -32,4 +32,4 @@ The pipeline and rails are the **portable core** -- anyone can install them. The
 
 ## The meta point
 
-This stack was built using the stack. The design was aligned with `/superpowers:brainstorming`, the plan was written with `/superpowers:write-plan`, the implementation ran through `/superpowers:subagent-driven-development`, and the work is tracked in Beads. Eat your own dog food.
+This stack was built using the stack. The design was aligned with `/superpowers:brainstorming`, the plan was written with `/superpowers:write-plan`, the implementation ran through `/superpowers:subagent-driven-development`. Eat your own dog food.

@@ -25,4 +25,4 @@ code-reviewer, security-reviewer, language reviewers (typescript / python / go /
 
 ## Memory
 
-Per-project issue tracking uses **beads** (`bd`). Persistent insights go in `bd remember`. Do **not** create `MEMORY.md` / `TODO.md` files.
+Persist durable decisions in-repo — ADRs (via `improve-codebase-architecture`) and the codebase knowledge graph (`graphify-out/`). Don't scatter `TODO.md` / `MEMORY.md` files.

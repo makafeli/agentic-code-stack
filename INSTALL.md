@@ -62,24 +62,6 @@ Optional: standalone hooks for status line + auto-activation:
 bash <(curl -s https://raw.githubusercontent.com/JuliusBrussee/caveman/main/hooks/install.sh)
 ```
 
-### Beads (gastownhall)
-```bash
-# Install bd CLI system-wide
-brew install beads
-# OR
-curl -fsSL https://raw.githubusercontent.com/gastownhall/beads/main/scripts/install.sh | bash
-
-# Per-project init
-cd your-project
-bd init
-bd setup claude   # installs hooks + AGENTS.md guidance for Claude Code
-```
-Optional plugin (adds slash commands + MCP tools):
-```
-/plugin marketplace add gastownhall/beads
-/plugin install beads
-```
-
 ### Pitlane MCP (eresende)
 Install the binary (Arch users: `pitlane-mcp-bin` from AUR; others: build from source at `github.com/eresende/pitlane-mcp`).
 
@@ -151,13 +133,11 @@ You should see at least these slash commands available:
 - `/grill-me`, `/grill-with-docs`
 - `/caveman`, `/caveman-stats`
 - `/graphify`
-- `/beads:ready`, `/beads:create` (if plugin installed)
 - `/context7:docs` (if plugin installed)
 
 And these MCP servers should be listed under `/mcp`:
 - `ref`
 - `context7`
 - `pitlane`
-- `beads` (if plugin)
 
 CLI tools (verify in a terminal): `bdata config`, `graphify --help`, `rtk --version`.

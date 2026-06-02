@@ -25,7 +25,6 @@ agentic-code-stack/
 ├── rails/
 │   ├── 01-docs-context.md
 │   ├── 02-token-efficiency.md
-│   ├── 03-memory-tracking.md
 │   ├── 04-external-data.md
 │   └── 05-agent-interfaces.md
 └── overlay/                # personal layer (gstack, harness, language profiles)
@@ -57,7 +56,6 @@ agentic-code-stack/
 **Rails** (always-on, parallel to the pipeline):
 - Docs & Context — Ref MCP, Context7, Pitlane MCP
 - Token Efficiency — Caveman, graphify, Pitlane MCP
-- Memory & Tracking — Beads
 - External Data — Bright Data CLI
 - Agent Interfaces — Printing Press
 
@@ -74,7 +72,6 @@ The pipeline tells the agent *what stage* of work it's in. The rails tell it *wh
 - **SwiftUI Agent Skill** — [twostraws/SwiftUI-Agent-Skill](https://github.com/twostraws/SwiftUI-Agent-Skill)
 - **Caveman** — [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
 - **graphify** — `/graphify` knowledge-graph skill
-- **Beads** — [gastownhall/beads](https://github.com/gastownhall/beads)
 - **Pitlane MCP** — [eresende/pitlane-mcp](https://github.com/eresende/pitlane-mcp)
 - **Ref MCP** — [ref-tools/ref-tools-mcp](https://github.com/ref-tools/ref-tools-mcp)
 - **Context7** — [upstash/context7](https://github.com/upstash/context7)

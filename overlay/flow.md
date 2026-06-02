@@ -13,4 +13,4 @@ For non-trivial work, this loop runs on top of the pipeline (with `/autoplan` + 
 5. **`/tdd`** — red → green → refactor. Failing test first, always.
 6. **CodeRabbit** — open the PR; CodeRabbit reviews it on GitHub. Run **`/autofix`** to apply its review-thread feedback with per-change approval.
 
-The rails stay active throughout (docs context, token efficiency, beads memory).
+The rails stay active throughout (docs context, token efficiency, external data).

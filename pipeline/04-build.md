@@ -32,11 +32,10 @@ These live in the overlay so the Build stage stays language-agnostic. See `overl
 3. **Use the rails:**
    - Pull docs through Context7 / Ref MCP — don't write from training memory.
    - Navigate code through Pitlane MCP or `/graphify`, not whole-file reads.
-   - Track work in beads as you go.
 4. **Commit discipline:** after every green test or meaningful refactor.
 5. **Block on critical review issues** — don't bargain past them.
 6. **When stuck:** `/superpowers:debugging`. Don't fire more random fixes.
-7. **When done:** `/superpowers:finishing-a-development-branch` and `bd close <id>`.
+7. **When done:** `/superpowers:finishing-a-development-branch`.
 
 ## Anti-patterns
 
@@ -45,7 +44,6 @@ These live in the overlay so the Build stage stays language-agnostic. See `overl
 - ❌ Reading entire files to find one symbol (use Pitlane).
 - ❌ Inventing API signatures (use Context7 or Ref).
 - ❌ Stopping the review loop because critical issues are "minor".
-- ❌ Forgetting to close beads issues. The graph fills with zombie work.
 
 ---
 

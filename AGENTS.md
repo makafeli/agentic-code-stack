@@ -63,13 +63,6 @@ Reach for these **before** raw `grep`, `find`, or whole-file reads.
 - **`/graphify`** — codebase → knowledge graph in `graphify-out/`; `graphify query "<q>"` instead of re-reading files. If `graphify-out/graph.json` exists, treat codebase questions as graph queries.
 - **Pitlane MCP** — shrink input: retrieve symbols, not whole files.
 
-### 03 · Memory & Task Tracking
-This project uses **beads (`bd`)** instead of markdown TODOs. Persistent across sessions.
-- `bd ready` · `bd show <id>` · `bd update <id> --claim` · `bd close <id> --reason "..."`
-- `bd create "title" -t bug|feature|task -p 0-4` · `bd remember "insight"` (no `MEMORY.md`)
-- `bd dep add <discovered> <parent> --type discovered-from` · `bd prime` at session start
-- Slash: `/beads:ready`, `/beads:create`, `/beads:workflow`, `@task-agent`
-
 ### 04 · External Data
 - **Bright Data CLI (`bdata`)** — `bdata scrape <url>`, `bdata search "<q>"`, `bdata pipelines <type>` (40+ platforms), `bdata budget`. One-time `bdata login`. Use for live web/SERP/platform data.
 
@@ -81,15 +74,13 @@ This project uses **beads (`bd`)** instead of markdown TODOs. Persistent across 
 ## Recommended order of operations
 
 1. Read this file.
-2. `bd prime` for memory, `bd ready` for current state.
-3. Non-trivial task → `/grill-me` or `/superpowers:brainstorming` (gstack: `/office-hours`).
-4. Capture the plan → `/superpowers:write-plan` (gstack: `/autoplan`).
-5. Pull docs through Context7 / Ref before writing library code.
-6. Navigate code with Pitlane / `/graphify`, not whole-file reads.
-7. Track work in beads; file discovery issues as you go.
-8. TDD when implementing; `code-structure` + `improve-codebase-architecture` for structure.
-9. `/superpowers:requesting-code-review`, then CodeRabbit + `/autofix` on the PR.
-10. `/superpowers:finishing-a-development-branch` and `bd close` when done.
+2. Non-trivial task → `/grill-me` or `/superpowers:brainstorming` (gstack: `/office-hours`).
+3. Capture the plan → `/superpowers:write-plan` (gstack: `/autoplan`).
+4. Pull docs through Context7 / Ref before writing library code.
+5. Navigate code with Pitlane / `/graphify`, not whole-file reads.
+6. TDD when implementing; `code-structure` + `improve-codebase-architecture` for structure.
+7. `/superpowers:requesting-code-review`, then CodeRabbit + `/autofix` on the PR.
+8. `/superpowers:finishing-a-development-branch` when done.
 
 > **Personal overlay:** `overlay/` documents the gstack skills, the Claude harness (Opus 4.8 + `/autoplan` + Workflow), and per-language profiles. Featured Opus 4.8 flow: `/caveman → /graphify → code-structure → improve-codebase-architecture → /tdd → CodeRabbit`. See `overlay/README.md`.
 

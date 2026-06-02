@@ -30,7 +30,3 @@ The plan that comes out of `/write-plan` is broken into 2–5-minute micro-tasks
 ## `↳ Overlay (gstack)` — autoplan + plan reviews
 
 If gstack is installed, **`/autoplan`** expands a one-line prompt into a full plan and runs CEO / design / eng / DX reviews with auto-decisions, surfacing only taste calls at a final gate. The individual reviews — **`/plan-ceo-review`**, **`/plan-eng-review`**, **`/plan-design-review`**, **`/plan-devex-review`** — and **`/cso`** can be run on their own. On Opus 4.8 this pairs with the **Workflow** orchestration tool. See `overlay/harness.md`.
-
-## Cross-reference
-
-Plan tasks can be tracked as **beads** (see `rails/03-memory-tracking.md`) so progress survives across sessions.
