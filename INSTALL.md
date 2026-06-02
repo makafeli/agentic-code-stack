@@ -4,6 +4,8 @@ One-time commands to get each tool wired into Claude Code (and most other agents
 
 > **Important:** This stack assumes Claude Code as the primary agent. Most tools also work in Codex, Cursor, Gemini CLI, OpenCode, etc. — see each tool's docs for non-Claude setup.
 
+> **Personal overlay:** the `overlay/` files reference **gstack** (a private skill suite) and harness/RTK config that are not publicly installable. A cloner can ignore or delete `overlay/`; the portable core below stands alone.
+
 ---
 
 ## Pipeline tools
@@ -20,15 +22,7 @@ npx skills add mattpocock/skills --skill write-a-skill
 /plugin marketplace add obra/superpowers-marketplace
 /plugin install superpowers@superpowers-marketplace
 ```
-Restart Claude Code. Verify with `/help` — you should see `/superpowers:brainstorm`, `/superpowers:write-plan`, `/superpowers:execute-plan`, etc.
-
-### OpenSpec (Fission-AI)
-```bash
-npm install -g @fission-ai/openspec@latest
-cd your-project
-openspec init --tools claude
-```
-The `init` command auto-detects existing `.claude/` directories and pre-selects the right tools.
+Restart Claude Code. Verify with `/help` — you should see `/superpowers:brainstorming`, `/superpowers:write-plan`, `/superpowers:execute-plan`, etc.
 
 ### Get Design (brand-design-md skill)
 ```bash
@@ -38,14 +32,9 @@ cp brand-design-md/SKILL.md ~/.claude/skills/brand-design-md/SKILL.md
 ```
 Restart Claude Code. The skill calls `npx getdesign@latest add <slug>` at runtime so you always get the latest spec.
 
-### Open Design (nexu-io)
-```bash
-git clone https://github.com/nexu-io/open-design.git
-cd open-design
-pnpm install
-pnpm tools-dev   # runs the daemon + web UI locally
-```
-Set `ANTHROPIC_API_KEY` (or any OpenAI-compatible BYOK key) as env var.
+### Claude Design
+
+No install — Anthropic's built-in **`frontend-design`** skill is available in Claude Code. Pair it with Get Design tokens. (gstack adds `/design-review`, `/design-html`, `/design-consultation` if installed.)
 
 ### SwiftUI / SwiftData / Swift Concurrency / Swift Testing skills (twostraws)
 ```bash
@@ -131,13 +120,21 @@ Or marketplace plugin:
 /plugin install context7-plugin@context7-marketplace
 ```
 
-### Brightdata MCP
-Get an API token at [brightdata.com](https://brightdata.com).
+### Bright Data CLI
 ```bash
-claude mcp add --transport sse brightdata \
-  "https://mcp.brightdata.com/sse?token=YOUR_API_TOKEN&pro=1"
+curl -fsSL https://cli.brightdata.com/install.sh | bash   # or: npm install -g @brightdata/cli
+bdata login
 ```
-Free tier: 5,000 requests/month. `pro=1` unlocks the 60+ tools (Amazon, LinkedIn, Maps, etc.).
+Free tier: 5,000 requests/month. `bdata pipelines list` shows the 40+ platform extractors.
+
+### graphify
+```bash
+uv tool install graphifyy   # or: pip install graphifyy
+```
+Optional always-on integration: `graphify claude install` writes a `## graphify` block into the project `CLAUDE.md`.
+
+### CodeRabbit + autofix
+Install the CodeRabbit GitHub App on your repo at [coderabbit.ai](https://coderabbit.ai/). The `autofix` skill (applies CodeRabbit review threads) ships with the stack — no separate install.
 
 ---
 
@@ -150,10 +147,10 @@ After setup, verify in Claude Code:
 ```
 
 You should see at least these slash commands available:
-- `/superpowers:brainstorm`, `/superpowers:write-plan`, `/superpowers:execute-plan`
-- `/grill-me`
-- `/opsx:propose`, `/opsx:apply`, `/opsx:archive`
+- `/superpowers:brainstorming`, `/superpowers:write-plan`, `/superpowers:execute-plan`
+- `/grill-me`, `/grill-with-docs`
 - `/caveman`, `/caveman-stats`
+- `/graphify`
 - `/beads:ready`, `/beads:create` (if plugin installed)
 - `/context7:docs` (if plugin installed)
 
@@ -161,5 +158,6 @@ And these MCP servers should be listed under `/mcp`:
 - `ref`
 - `context7`
 - `pitlane`
-- `brightdata`
 - `beads` (if plugin)
+
+CLI tools (verify in a terminal): `bdata config`, `graphify --help`, `rtk --version`.
