@@ -63,6 +63,12 @@ Reach for these **before** raw `grep`, `find`, or whole-file reads.
 - **`/graphify`** — codebase → knowledge graph in `graphify-out/`; `graphify query "<q>"` instead of re-reading files. If `graphify-out/graph.json` exists, treat codebase questions as graph queries.
 - **Pitlane MCP** — shrink input: retrieve symbols, not whole files.
 
+### 03 · Memory & Task Tracking
+Track work in a real issue tracker, not markdown TODOs. Pick what the project uses:
+- **GitHub Issues** (portable default) — `gh issue list/create/view/close`, or the GitHub MCP (`list_issues`, `issue_write`). Reference `#<n>` in commits to auto-close.
+- **Linear** — via the Linear MCP or the Printing Press `linear` CLI (local-mirror SQL, Rail 05). Use `ENG-123` IDs in branches/PRs.
+- File a follow-up issue when you discover work mid-task; close with a real reason. No `MEMORY.md`.
+
 ### 04 · External Data
 - **Bright Data CLI (`bdata`)** — `bdata scrape <url>`, `bdata search "<q>"`, `bdata pipelines <type>` (40+ platforms), `bdata budget`. One-time `bdata login`. Use for live web/SERP/platform data.
 
@@ -78,9 +84,10 @@ Reach for these **before** raw `grep`, `find`, or whole-file reads.
 3. Capture the plan → `/superpowers:write-plan` (gstack: `/autoplan`).
 4. Pull docs through Context7 / Ref before writing library code.
 5. Navigate code with Pitlane / `/graphify`, not whole-file reads.
-6. TDD when implementing; `code-structure` + `improve-codebase-architecture` for structure.
-7. `/superpowers:requesting-code-review`, then CodeRabbit + `/autofix` on the PR.
-8. `/superpowers:finishing-a-development-branch` when done.
+6. Track work as issues (GitHub Issues / Linear); file discovery issues as you go.
+7. TDD when implementing; `code-structure` + `improve-codebase-architecture` for structure.
+8. `/superpowers:requesting-code-review`, then CodeRabbit + `/autofix` on the PR.
+9. `/superpowers:finishing-a-development-branch` and close the issue when done.
 
 > **Personal overlay:** `overlay/` documents the gstack skills, the Claude harness (Opus 4.8 + `/autoplan` + Workflow), and per-language profiles. Featured Opus 4.8 flow: `/caveman → /graphify → code-structure → improve-codebase-architecture → /tdd → CodeRabbit`. See `overlay/README.md`.
 

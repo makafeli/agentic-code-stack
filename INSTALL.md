@@ -62,6 +62,12 @@ Optional: standalone hooks for status line + auto-activation:
 bash <(curl -s https://raw.githubusercontent.com/JuliusBrussee/caveman/main/hooks/install.sh)
 ```
 
+### Memory & Tracking — GitHub Issues / Linear
+GitHub Issues needs no install — authenticate the `gh` CLI (`gh auth login`) or use the GitHub MCP. For Linear, connect the Linear MCP, or install the Printing Press `linear` CLI:
+```bash
+npx -y @mvanhorn/printing-press install linear
+```
+
 ### Pitlane MCP (eresende)
 Install the binary (Arch users: `pitlane-mcp-bin` from AUR; others: build from source at `github.com/eresende/pitlane-mcp`).
 
@@ -140,4 +146,4 @@ And these MCP servers should be listed under `/mcp`:
 - `context7`
 - `pitlane`
 
-CLI tools (verify in a terminal): `bdata config`, `graphify --help`, `rtk --version`.
+CLI tools (verify in a terminal): `bdata config`, `graphify --help`, `rtk --version`, `gh auth status`.

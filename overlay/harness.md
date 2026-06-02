@@ -25,4 +25,4 @@ code-reviewer, security-reviewer, language reviewers (typescript / python / go /
 
 ## Memory
 
-Persist durable decisions in-repo — ADRs (via `improve-codebase-architecture`) and the codebase knowledge graph (`graphify-out/`). Don't scatter `TODO.md` / `MEMORY.md` files.
+Track work as issues — GitHub Issues (`gh`) or Linear — not `TODO.md` / `MEMORY.md` files. Durable design decisions go in ADRs (via `improve-codebase-architecture`); the codebase graph lives in `graphify-out/`.
