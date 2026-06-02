@@ -47,7 +47,7 @@ agentic-code-stack/
 
 ## Links
 
-- **GitHub Discussions** — Share your setup, ask questions, and see how others configure their stack.
+- **[GitHub Discussions](https://github.com/makafeli/agentic-code-stack/discussions)** — Share your setup, ask questions, and see how others configure their stack.
 - **[community-recipes/](community-recipes/)** — Contribute a recipe for your toolchain. PRs welcome.
 
 ## The mental model

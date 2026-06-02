@@ -21,4 +21,4 @@ Light review: is it documented? Does it work? Not a formal RFC. The best recipes
 
 ## Discussions
 
-Share your setup and get feedback in [GitHub Discussions](https://github.com/.../discussions) (Show Your Stack category) before submitting a PR if you'd like community input first.
+Share your setup and get feedback in [GitHub Discussions](https://github.com/makafeli/agentic-code-stack/discussions) (Show Your Stack category) before submitting a PR if you'd like community input first.
