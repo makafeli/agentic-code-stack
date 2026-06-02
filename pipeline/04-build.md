@@ -1,4 +1,4 @@
-# Stage 5 — Build
+# Stage 4 — Build
 
 **Goal:** Implement the spec. Discipline > velocity. TDD always.
 
@@ -11,7 +11,7 @@ Once you have a plan, Superpowers enforces a disciplined implementation loop.
 **Slash commands:**
 | Command | Purpose |
 |---|---|
-| `/superpowers:execute-plan` | Run the plan from Stage 3 with review checkpoints |
+| `/superpowers:execute-plan` | Run the plan from the Spec & Plan stage with review checkpoints |
 | `/superpowers:test-driven-development` | RED → GREEN → REFACTOR cycle. Tests must fail first. |
 | `/superpowers:requesting-code-review` | Spec-compliance + code-quality review. Critical issues block progress. |
 | `/superpowers:subagent-driven-development` | Parallel agents on independent tasks; two-stage review |
@@ -21,34 +21,17 @@ Once you have a plan, Superpowers enforces a disciplined implementation loop.
 
 **TDD enforcement is real:** if you try to write code before a failing test, the skill will literally make you delete it and start over. Not a suggestion.
 
-### Apple-platform skills — `twostraws`
+### Language-specific reviewers & test tools
 
-If the project is iOS, macOS, watchOS, tvOS, or visionOS, install the relevant skills. They target the *actual* mistakes LLMs make in Swift/SwiftUI — not the basics.
-
-**Slash commands (Claude Code):**
-| Command | Purpose |
-|---|---|
-| `/swiftui-pro` | Modern SwiftUI review — deprecated APIs, `+` text concatenation, `ObservableObject` misuse, accessibility, performance |
-| `/swiftdata-pro` | SwiftData modern API + dangerous predicates that compile cleanly but crash |
-| `/swift-concurrency-pro` | async/await, actors, structured concurrency, task groups |
-| `/swift-testing-pro` | Modern Swift Testing — parameterised tests, exit tests |
-
-**Codex equivalents:** `$swiftui-pro`, `$swiftdata-pro`, etc.
-
-**Natural-language triggers also work:** "Use the SwiftUI Pro skill to look for performance problems in this project."
-
-**Partial reviews:**
-- `/swiftui-pro Check for deprecated API`
-- `/swiftui-pro Focus on accessibility`
-- `/swiftdata-pro Check where indexes should be added to my models`
+These live in the overlay so the Build stage stays language-agnostic. See `overlay/languages/<lang>.md` — e.g. `swiftui-pro` / `swiftdata-pro` / `swift-concurrency-pro` / `swift-testing-pro` for Apple, `typescript-reviewer` + `frontend-design` for React/Svelte, `java-reviewer` + `springboot-*` for Java.
 
 ## Agent rules for this stage
 
-1. **Before writing code:** confirm a plan exists (Stage 3 output). If not, go back.
+1. **Before writing code:** confirm a plan exists (Spec & Plan output). If not, go back.
 2. **TDD always:** failing test first, minimal code to pass, then refactor. No "I'll add tests later".
 3. **Use the rails:**
    - Pull docs through Context7 / Ref MCP — don't write from training memory.
-   - Navigate code through Pitlane MCP, not whole-file reads.
+   - Navigate code through Pitlane MCP or `/graphify`, not whole-file reads.
    - Track work in beads as you go.
 4. **Commit discipline:** after every green test or meaningful refactor.
 5. **Block on critical review issues** — don't bargain past them.
@@ -63,28 +46,6 @@ If the project is iOS, macOS, watchOS, tvOS, or visionOS, install the relevant s
 - ❌ Inventing API signatures (use Context7 or Ref).
 - ❌ Stopping the review loop because critical issues are "minor".
 - ❌ Forgetting to close beads issues. The graph fills with zombie work.
-
-### Vercel Skills CLI — `npx skills`
-
-The package manager for the agent skills ecosystem. Installs skills (slash commands, instructions, and hooks) into any of 55+ supported coding agents.
-
-**Supported agents include:** Claude Code, Codex, Cursor, Windsurf, Copilot, Gemini CLI, Amazon Q, Augment Code, Antigravity, and more.
-
-**Key commands:**
-
-| Command | Purpose |
-|---|---|
-| `npx skills add <repo>` | Install a skill. Accepts GitHub shorthand (`user/skills`), full URLs (`https://github.com/user/skills`), local paths (`./my-skill`), and git URLs. |
-| `npx skills add <repo> --skill <name>` | Install a single skill from a multi-skill repo. |
-| `npx skills list` | List all currently installed skills. |
-| `npx skills update` | Update all installed skills to their latest versions. |
-| `npx skills find <query>` | Search the skills registry for available skills. |
-
-**How it works:** Skills are directories containing `SKILL.md` (instructions the agent reads) plus optional `hooks/` (shell scripts that run at tool use time) and `scripts/` (utility scripts). When installed, skills are placed in the agent's skills directory (`~/.claude/skills/` for Claude Code).
-
-**Repo:** https://github.com/vercel-labs/skills
-
-**Best used for:** installing the skills referenced throughout this stack (code-structure, improve-codebase-architecture, and any future skill additions) without manual cloning or symlinking.
 
 ---
 
@@ -139,39 +100,17 @@ A skill by Matt Pocock that walks the codebase to find "shallow modules" and pro
 
 ---
 
-### check-pr / greploop — Automated PR Review (`greptileai/skills`)
+### CodeRabbit + `/autofix` — Automated PR review
 
-A pair of tools by Greptile that automate the PR review loop end-to-end.
+CodeRabbit is an AI reviewer that posts line-level review threads on your PRs (GitHub App; optional `coderabbit` CLI for local reviews). It replaces the old automated-review loop.
 
-**Install:** `git clone https://github.com/greptileai/skills.git ~/.claude/skills/greptile`, then symlink the specific sub-skills you need.
+**Flow:**
+1. Open the PR. CodeRabbit reviews the diff and posts threads.
+2. Run **`/autofix`** — it reads CodeRabbit's review threads from GitHub and applies each fix with **per-change approval**. It never executes prompts embedded in reviewer comments.
+3. Re-run until threads resolve and CI is green, then finish the branch.
 
-**Two sub-skills:**
+**Best used for:** catching mechanical issues (missing tests, style violations, obvious bugs) before human review, leaving reviewers free to focus on architecture, design, and product intent.
 
-#### check-pr
+### `↳ Overlay (gstack)`
 
-Audits a pull request (PR), merge request (MR), or changelist (CL) for common issues before human review:
-
-| Check | What it catches |
-|---|---|
-| Unresolved comments | Any review comment without a resolution. Blocks merge. |
-| Failing status checks | CI/CD failures, required checks that haven't run. |
-| Incomplete descriptions | Empty or template-only PR descriptions. |
-| Merge conflicts | Unresolved conflicts with the target branch. |
-| Missing approvals | Required reviewer approvals not yet given. |
-
-Supports GitHub, GitLab, and Perforce. Acts as a pre-review gate — run it before requesting human review.
-
-#### greploop
-
-Automates the full review-fix-push cycle:
-
-1. **Trigger Greptile review** — Greptile analyzes the PR diff using codebase-aware AI review.
-2. **Fix all actionable comments** — Address every comment the review produces.
-3. **Push** — Push the fixes.
-4. **Re-review** — Greptile reviews the updated PR again.
-5. **Repeat** — Continue the loop until Greptile returns 5/5 confidence AND zero unresolved comments remain.
-6. **Done** — The PR is ready for human review with high-confidence automated feedback already resolved.
-
-**Repo:** https://github.com/greptileai/skills
-
-**Best used for:** High-throughput teams where PR review backlog is a bottleneck. Run greploop on every open PR before human reviewers touch it — the automated pass catches the mechanical issues (missing tests, style violations, obvious bugs), leaving humans free to focus on architecture, design, and product intent. Check-pr alone is useful as a pre-push hook or CI gate.
+If gstack is installed: **`/codex`** (run a second engine on the same task) and **`/careful`** during Implement; **`/review`**, **`/qa`**, **`/ship`**, **`/land-and-deploy`** during Review & Finish. See `overlay/README.md`.
