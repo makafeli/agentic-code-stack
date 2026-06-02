@@ -86,11 +86,11 @@ For updates: `go install` / `git pull` / `npx install` respectively.
 - ✅ Offline-first / local-mirror use cases
 - ✅ Compound queries the native API can't express
 - ❌ One-off API calls the agent can handle with a single curl
-- ❌ Read-only web scraping (use Brightdata — Rail 04)
+- ❌ Read-only web scraping (use the Bright Data CLI — Rail 04)
 
 ## Cross-reference
 
-- For read-only web data retrieval → use **Brightdata MCP** (Rail 04), not Printing Press
+- For read-only web data retrieval → use the **Bright Data CLI** (Rail 04), not Printing Press
 - For documentation lookups → use **Ref MCP** or **Context7** (Rail 01)
 - For codebase navigation → use **Pitlane MCP** (Rail 01)
 - Generated CLIs can output MCP servers → add them to your MCP config with `claude mcp add`
