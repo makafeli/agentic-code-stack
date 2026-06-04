@@ -90,7 +90,7 @@ Track work in a real issue tracker, not markdown TODOs. Pick what the project us
 8. `/superpowers:requesting-code-review`, then CodeRabbit + `/autofix` on the PR.
 9. `/superpowers:finishing-a-development-branch` and close the issue when done.
 
-> **Personal overlay:** `overlay/` documents the gstack skills, the Claude harness (Opus 4.8 + `/autoplan` + Workflow), and per-language profiles. Featured Opus 4.8 flow: `/caveman → /graphify → code-structure → improve-codebase-architecture → /tdd → CodeRabbit`. See `overlay/README.md`.
+> **Personal overlay:** `overlay/` documents the gstack skills, the Claude harness (Opus 4.8 + `/autoplan` + Workflow), and per-language profiles. Featured Opus 4.8 flow: `/caveman → /graphify → code-structure → improve-codebase-architecture → /tdd → Fallow → CodeRabbit`. See `overlay/README.md`.
 
 ---
 

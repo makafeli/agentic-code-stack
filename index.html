@@ -464,6 +464,34 @@
     border-radius: 50%;
   }
 
+  .flowstrip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 6px;
+    margin: 0 0 8px;
+    padding: 16px 18px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .flowstrip code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 5px 9px;
+  }
+  .flowstrip code.flow-accent {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+  }
+  .flowstrip .flowarrow {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
   @media print {
     body { background: white; }
     .sheet { padding: 24px; }
@@ -904,6 +932,21 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Featured Opus 4.8 flow -->
+  <div class="sec-label" style="margin-top:40px;">
+    <span class="pill">Featured Flow</span>
+    Opus 4.8 · runs on top of the pipeline
+  </div>
+  <div class="flowstrip">
+    <code>/caveman</code><span class="flowarrow">→</span>
+    <code>/graphify</code><span class="flowarrow">→</span>
+    <code>code-structure</code><span class="flowarrow">→</span>
+    <code>improve-codebase-architecture</code><span class="flowarrow">→</span>
+    <code>/tdd</code><span class="flowarrow">→</span>
+    <code class="flow-accent">Fallow</code><span class="flowarrow">→</span>
+    <code>CodeRabbit</code>
   </div>
 
   <div class="footer-note">
