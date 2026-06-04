@@ -632,6 +632,18 @@
           <span class="blurb">Surface architectural friction: find shallow modules, deepen them, document decisions as ADRs.</span>
         </li>
         <li class="item">
+          <span class="name">Fallow</span>
+          <span class="blurb">fallow.tools — static code-health: dead code, dupes, complexity. Auto-fix preview + MCP.</span>
+          <div class="cmds">
+            <div class="cmds-label">Commands</div>
+            <code>npx fallow dead-code</code>
+            <code>npx fallow dupes --mode semantic</code>
+            <code>npx fallow health</code>
+            <code>npx fallow fix --dry-run</code>
+            <div class="cmds-note">--format json or the fallow-mcp server for agent access.</div>
+          </div>
+        </li>
+        <li class="item">
           <span class="name">/superpowers:requesting-code-review</span>
           <span class="blurb">Review against plan; critical issues block progress.</span>
           <div class="cmds">

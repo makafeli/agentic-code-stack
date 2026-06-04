@@ -79,6 +79,7 @@ The pipeline tells the agent *what stage* of work it's in. The rails tell it *wh
 - **Context7** — [upstash/context7](https://github.com/upstash/context7)
 - **Bright Data CLI** — [brightdata.com](https://brightdata.com/)
 - **CodeRabbit** — [coderabbit.ai](https://coderabbit.ai/) · applied via the `autofix` skill
+- **Fallow** — [fallow.tools](https://fallow.tools/) · static code-health (dead code, dupes, complexity)
 
 All third-party tools belong to their respective authors. This package is a reference layer, not a redistribution.
 

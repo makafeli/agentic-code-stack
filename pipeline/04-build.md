@@ -100,6 +100,24 @@ A skill by Matt Pocock that walks the codebase to find "shallow modules" and pro
 
 ---
 
+### Fallow — Static code-health (`fallow.tools`)
+
+Static analysis across three dimensions — dead code, duplication, and complexity — with an auto-fix preview. Zero-config (118 framework plugins). Free OSS static tier; a paid "runtime intelligence" layer adds production execution data.
+
+**Commands:**
+| Command | What it finds |
+|---|---|
+| `npx fallow dead-code` | Unused files, exports, types, dependencies, cycles |
+| `npx fallow dupes` (`--mode semantic`) | Duplicated logic, incl. variable-renamed clones |
+| `npx fallow health` | Complexity hotspots + prioritized refactor targets |
+| `npx fallow fix --dry-run` | Preview automated cleanup before applying |
+
+**Agent access:** `npx fallow --format json` for parseable output, or run the **`fallow-mcp`** server so the agent calls Fallow as a structured MCP tool instead of parsing shell output. Optional config via `fallow init` (`.fallowrc.json` / `fallow.toml`).
+
+**Where it sits:** the quantitative complement to `improve-codebase-architecture` (qualitative deepening) and CodeRabbit (PR review). It overlaps `knip` (dead code) but is broader — pick one. Run it before requesting review so the mechanical cleanup is already done.
+
+---
+
 ### CodeRabbit + `/autofix` — Automated PR review
 
 CodeRabbit is an AI reviewer that posts line-level review threads on your PRs (GitHub App; optional `coderabbit` CLI for local reviews). It replaces the old automated-review loop.

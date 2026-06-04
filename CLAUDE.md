@@ -41,6 +41,7 @@ Implement the spec. Discipline > velocity. TDD always.
 
 **Review & Finish**
 - **`improve-codebase-architecture`** — find shallow modules, deepen them, write ADRs
+- **Fallow** (`npx fallow`) — static code-health: `dead-code`, `dupes`, `health` (complexity), `fix --dry-run`. `--format json` or the `fallow-mcp` server for agent access
 - **`/superpowers:requesting-code-review`** — review against plan; critical issues block
 - **CodeRabbit + `/autofix`** — CodeRabbit reviews the PR on GitHub; `/autofix` applies its review threads with per-change approval
 - **`/superpowers:finishing-a-development-branch`** — verify tests, then merge / PR / discard

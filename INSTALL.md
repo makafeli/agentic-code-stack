@@ -44,6 +44,15 @@ npx skills add https://github.com/twostraws/swift-concurrency-agent-skill --skil
 npx skills add https://github.com/twostraws/swift-testing-agent-skill --skill swift-testing-pro
 ```
 
+### Fallow (code-health)
+No install needed — run via `npx`. Optional MCP server for structured agent access:
+```bash
+npx fallow            # run; subcommands: dead-code · dupes · health · fix --dry-run
+npx fallow init       # optional .fallowrc.json / fallow.toml
+# Structured agent access — add the fallow-mcp server to your MCP config, e.g.:
+claude mcp add fallow -- npx -y fallow-mcp
+```
+
 ---
 
 ## Rail tools
