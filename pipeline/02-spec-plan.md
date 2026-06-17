@@ -19,6 +19,20 @@ Turn the aligned design into a plan, then execute it with review checkpoints.
 
 The plan that comes out of `/write-plan` is broken into 2–5-minute micro-tasks, each of which can be picked up independently.
 
+### `/improve` — audit → plan (`shadcn/improve`)
+
+A read-only senior-advisor audit of the whole codebase (bugs, security, perf, test gaps, tech debt, roadmap) that emits prioritized, self-contained markdown plans for a *cheaper* model to execute. The expensive-advises / cheap-executes split keeps cost down.
+
+| Command | Purpose |
+|---|---|
+| `/improve` | Full audit → prioritized plans |
+| `/improve quick` | Top findings only |
+| `/improve security` | Security-focused audit |
+| `/improve execute <plan>` | Dispatch a cheaper executor to implement a plan |
+| `/improve reconcile` | Refresh the backlog after work lands |
+
+Install: `npx skills add shadcn/improve`. Plans are plain markdown — runnable by any agent or human.
+
 ## When to use which
 
 | Situation | Tool |

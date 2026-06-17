@@ -23,6 +23,7 @@ Do **not** skip to code on a vague brief.
 Write the aligned idea down so it survives context loss:
 - **`/superpowers:write-plan`** — design → junior-engineer-grade task list
 - **`/superpowers:execute-plan`** — run the plan with review checkpoints
+- **`/improve`** (shadcn) — audit the codebase → prioritized plans a cheaper model runs (`/improve execute <plan>`); `quick` / `security` variants
 - `↳ Overlay (gstack):` **`/autoplan`** (auto CEO/design/eng/DX review) · **`/plan-ceo-review` `/plan-eng-review` `/plan-design-review` `/plan-devex-review`** · **`/cso`**
 
 ### 3. Design (when UI is involved)
@@ -61,6 +62,7 @@ Reach for these **before** raw `grep`, `find`, or whole-file reads.
 
 ### 02 · Token & Output Efficiency
 - **`/caveman`** (`lite` / `full` / `ultra`) — compress prose output ~65–75%; code/commits stay normal. `/caveman-stats` for savings.
+- **`/ponytail`** (`lite` / `full` / `ultra`) — "lazy senior dev" code discipline: stdlib/native over deps, shortest working diff (~80% less code). `/ponytail-review` · `/ponytail-audit` hunt over-engineering. Caveman's code-side counterpart.
 - **`/graphify`** — codebase → knowledge graph in `graphify-out/`; `graphify query "<q>"` instead of re-reading files. If `graphify-out/graph.json` exists, treat codebase questions as graph queries.
 - **Pitlane MCP** — shrink input: retrieve symbols, not whole files.
 

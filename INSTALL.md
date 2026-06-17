@@ -24,6 +24,11 @@ npx skills add mattpocock/skills --skill write-a-skill
 ```
 Restart Claude Code. Verify with `/help` — you should see `/superpowers:brainstorming`, `/superpowers:write-plan`, `/superpowers:execute-plan`, etc.
 
+### improve (shadcn)
+```bash
+npx skills add shadcn/improve
+```
+
 ### Get Design (brand-design-md skill)
 ```bash
 git clone https://github.com/zephyrwang6/brand-design-md.git
@@ -69,6 +74,12 @@ npx skills add JuliusBrussee/caveman
 Optional: standalone hooks for status line + auto-activation:
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/JuliusBrussee/caveman/main/hooks/install.sh)
+```
+
+### ponytail (DietrichGebert)
+```
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
 ```
 
 ### Memory & Tracking — GitHub Issues / Linear

@@ -80,6 +80,8 @@ The pipeline tells the agent *what stage* of work it's in. The rails tell it *wh
 - **Bright Data CLI** — [brightdata.com](https://brightdata.com/)
 - **CodeRabbit** — [coderabbit.ai](https://coderabbit.ai/) · applied via the `autofix` skill
 - **Fallow** — [fallow.tools](https://fallow.tools/) · static code-health (dead code, dupes, complexity)
+- **improve** — [shadcn/improve](https://github.com/shadcn/improve) · audit → plans for a cheaper model
+- **ponytail** — [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) · lazy-senior-dev code discipline
 
 All third-party tools belong to their respective authors. This package is a reference layer, not a redistribution.
 

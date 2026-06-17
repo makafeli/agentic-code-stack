@@ -54,6 +54,19 @@ Compresses prose output ~65–75% by dropping articles, fragments, abbreviations
 >
 > Caveman ultra: "Inline obj prop → new ref → re-render. Memo it."
 
+### ponytail — `/ponytail` (`DietrichGebert/ponytail`)
+
+The code-side counterpart to Caveman: a "lazy senior dev" ruleset that forces the minimal working solution — skip speculative features (YAGNI), reach for stdlib / native / already-installed deps before new code, one line before fifty. Reports ~80% less generated code and 42–75% lower cost. Always-on; persists until `off`.
+
+| Command | Purpose |
+|---|---|
+| `/ponytail lite \| full \| ultra` | Set intensity (default `full`) |
+| `/ponytail-review` | Review a diff for over-engineering |
+| `/ponytail-audit` | Scan the whole repo for bloat to cut |
+| `/ponytail-debt` | Harvest deferred `ponytail:` shortcuts |
+
+Never simplifies away input validation, error handling, security, or accessibility. Pair with Caveman (prose) for full output efficiency.
+
 ### graphify — `/graphify`
 
 Turns any folder (code, docs, papers, images, video) into a queryable knowledge graph in `graphify-out/`. Token angle: query the graph instead of re-reading files — a broad "how does X work?" answer comes from one `graphify query` call, not a file sweep.
