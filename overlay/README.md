@@ -23,3 +23,4 @@ Each core pipeline stage carries a one-line `↳ Overlay:` signpost pointing her
 - `harness.md` — model, orchestration, hooks, agents.
 - `flow.md` — the default Opus 4.8 working flow.
 - `languages/` — per-language profiles the agent selects from per project (`react`, `swift`, `svelte`, `java`, + `_template.md`).
+- `rules/common/` — per-model prompting rules: `fable-5.md` (Claude 5 frontier), `sonnet-5.md` (Sonnet 5 breaking changes + migration), `performance.md` (model-selection strategy).

@@ -6,6 +6,16 @@ Two parts: a **pipeline** (sequential stages, idea → shipped code) and **rails
 
 **Rule:** superpowers + public tools are the portable default. When **gstack** is installed, prefer the gstack skill for that stage (see `overlay/`).
 
+## Model guidance
+
+Per-model prompting, effort, thinking, and refusal-fallback rules live in `overlay/rules/common/`:
+
+- **[fable-5.md](overlay/rules/common/fable-5.md)** — Claude 5 frontier pair (Fable 5 / Mythos 5): model IDs, effort dial, adaptive-thinking-only, refusals & fallback to Opus 4.8.
+- **[sonnet-5.md](overlay/rules/common/sonnet-5.md)** — Sonnet 5: breaking API changes vs 4.6 (adaptive thinking default, sampling params & manual `budget_tokens` now 400, ~30% heavier tokenizer), effort mapping, literal instruction-following, cyber-only refusals.
+- **[performance.md](overlay/rules/common/performance.md)** — model-selection strategy across the lineup.
+
+Match effort/thinking config to the model actually in use before applying older prompt patterns.
+
 ---
 
 ## Pipeline (run roughly left-to-right)
