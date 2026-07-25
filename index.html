@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Agentic Code Stack — Skill Stack Wire Diagram</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agentic Code Stack — Quality Loop Wire Diagram</title>
 <link rel="canonical" href="https://makafeli.github.io/agentic-code-stack/">
-<meta name="description" content="Agentic Code Stack — pipeline + rails for AI coding agents. Align, Spec & Plan, Design, Build.">
+<meta name="description" content="Agentic Code Stack — the Matt Pocock quality loop for AI coding agents. Grill, spec, tickets, implement, review, merge, sweep.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +23,7 @@
     --rail-tok:   #6a3b2a;
     --rail-mem:   #3d5e3a;
     --rail-ext:   #5a3a6e;
+    --rail-api:   #3a4f6e;
     --muted:      #5a6573;
   }
 
@@ -87,7 +89,7 @@
   }
 
   .hint {
-    margin: 0 0 36px;
+    margin: 0 0 26px;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
@@ -96,10 +98,7 @@
     align-items: center;
     gap: 10px;
   }
-  .hint::before {
-    content: "▸";
-    color: var(--accent);
-  }
+  .hint::before { content: "▸"; color: var(--accent); }
 
   /* ── Section labels ───────────────────── */
   .sec-label {
@@ -112,18 +111,8 @@
     letter-spacing: 0.22em;
     color: var(--muted);
   }
-  .sec-label::before {
-    content: "";
-    height: 1px;
-    width: 28px;
-    background: var(--ink);
-  }
-  .sec-label::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--line-soft);
-  }
+  .sec-label::before { content: ""; height: 1px; width: 28px; background: var(--ink); }
+  .sec-label::after  { content: ""; flex: 1; height: 1px; background: var(--line-soft); }
   .sec-label .pill {
     background: var(--ink);
     color: var(--paper);
@@ -133,7 +122,40 @@
     letter-spacing: 0.18em;
   }
 
-  /* ── Pipeline (top) ───────────────────── */
+  /* ── The loop strip ───────────────────── */
+  .flowstrip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 6px;
+    margin: 0 0 40px;
+    padding: 16px 18px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .flowstrip code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 5px 9px;
+  }
+  .flowstrip code.flow-accent {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--accent);
+  }
+  .flowstrip .flowarrow { color: var(--accent); font-weight: 700; }
+  .flowstrip .flowlabel {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-right: 6px;
+  }
+
+  /* ── Pipeline ─────────────────────────── */
   .pipeline {
     position: relative;
     display: grid;
@@ -149,9 +171,7 @@
     margin-right: 28px;
     min-height: 230px;
   }
-  .stage.wide {
-    grid-column: span 2;
-  }
+  .stage.wide { grid-column: span 2; }
   .stage:last-child { margin-right: 0; }
 
   .stage:not(:last-child)::after {
@@ -194,28 +214,6 @@
     margin: 6px 0 4px;
     letter-spacing: -0.01em;
   }
-  .build-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0 18px;
-    margin-top: 0;
-  }
-  .build-col h5 {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-3);
-    margin: 0 0 6px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--ink-2);
-  }
-  .build-col ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
   .stage .role {
     font-size: 10px;
     text-transform: uppercase;
@@ -224,11 +222,24 @@
     margin-bottom: 14px;
     font-weight: 500;
   }
-  .stage ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .stage ul { list-style: none; padding: 0; margin: 0; }
+
+  .build-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 18px;
   }
+  .build-col h5 {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin: 0 0 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .build-col ul { list-style: none; padding: 0; margin: 0; }
 
   /* ── Hoverable item ───────────────────── */
   .item {
@@ -246,6 +257,13 @@
     display: flex;
     align-items: center;
     gap: 6px;
+  }
+  .item .name .step {
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 2px;
   }
   .item .name::after {
     content: "⌘";
@@ -269,10 +287,9 @@
     max-height: 0;
     overflow: hidden;
     margin-top: 0;
-    padding: 0 0;
+    padding: 0;
     background: var(--ink);
     color: var(--paper);
-    border-radius: 0;
     transition:
       max-height 0.28s ease,
       padding 0.2s ease,
@@ -311,7 +328,7 @@
     font-style: italic;
   }
 
-  /* ── Rails (bottom) ───────────────────── */
+  /* ── Rails ────────────────────────────── */
   .rails {
     display: flex;
     flex-direction: column;
@@ -319,6 +336,7 @@
     border-top: 2px solid var(--ink);
     border-bottom: 2px solid var(--ink);
     background: var(--paper-2);
+    margin-bottom: 56px;
   }
   .rail {
     display: grid;
@@ -392,10 +410,7 @@
     height: 2px;
     background: var(--rail-color, var(--accent));
   }
-  .tool:hover {
-    background: rgba(193, 68, 14, 0.04);
-    border-color: var(--ink);
-  }
+  .tool:hover { background: rgba(193, 68, 14, 0.04); border-color: var(--ink); }
   .tool b {
     font-weight: 700;
     font-size: 12.5px;
@@ -425,25 +440,111 @@
     margin-top: 5px;
     line-height: 1.4;
   }
-  .tool .cmds {
-    margin-top: 0;
-    padding: 0;
-  }
-  .tool:hover .cmds {
-    max-height: 500px;
-    padding: 10px 12px 11px;
-    margin-top: 8px;
-  }
+  .tool .cmds { margin-top: 0; padding: 0; }
+  .tool:hover .cmds { max-height: 500px; padding: 10px 12px 11px; margin-top: 8px; }
 
-  /* rail color overrides */
   .rail.doc  { --rail-color: var(--rail-doc); }
   .rail.tok  { --rail-color: var(--rail-tok); }
   .rail.mem  { --rail-color: var(--rail-mem); }
   .rail.ext  { --rail-color: var(--rail-ext); }
+  .rail.api  { --rail-color: var(--rail-api); }
 
-  /* ── Bottom flow note ─────────────────── */
+  /* ── Config peer trees ────────────────── */
+  .peers {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    align-items: stretch;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    margin-bottom: 14px;
+  }
+  .peer { padding: 20px 22px 22px; }
+  .peer h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0 0 2px;
+    letter-spacing: -0.01em;
+  }
+  .peer .entry {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .peer pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--ink);
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .peer-divider {
+    width: 1.5px;
+    background: var(--ink);
+    position: relative;
+  }
+  .peer-divider span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--paper-2);
+    padding: 8px 4px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+  }
+
+  .modeltable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .modeltable th, .modeltable td {
+    padding: 9px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .modeltable th {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    font-weight: 700;
+    background: var(--paper);
+  }
+  .modeltable tr:last-child td { border-bottom: none; }
+  .modeltable code {
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    padding: 1px 5px;
+    font-size: 10.5px;
+  }
+  .modeltable .max { color: var(--accent); font-weight: 700; }
+
+  .note {
+    margin: 14px 0 0;
+    padding: 12px 16px;
+    border-left: 3px solid var(--accent);
+    background: var(--paper-2);
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .note b { color: var(--accent); }
+
+  /* ── Footer ───────────────────────────── */
   .footer-note {
-    margin-top: 38px;
+    margin-top: 42px;
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
@@ -453,44 +554,8 @@
     text-transform: uppercase;
     letter-spacing: 0.15em;
   }
-  .footer-note hr {
-    border: none;
-    border-top: 1px solid var(--line-soft);
-    margin: 0;
-  }
-  .footer-note .pin {
-    width: 8px; height: 8px;
-    border: 1.5px solid var(--ink);
-    border-radius: 50%;
-  }
-
-  .flowstrip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 6px;
-    margin: 0 0 8px;
-    padding: 16px 18px;
-    border: 1.5px solid var(--ink);
-    background: var(--paper-2);
-  }
-  .flowstrip code {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 700;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    padding: 5px 9px;
-  }
-  .flowstrip code.flow-accent {
-    background: var(--accent);
-    color: var(--paper);
-    border-color: var(--accent);
-  }
-  .flowstrip .flowarrow {
-    color: var(--accent);
-    font-weight: 700;
-  }
+  .footer-note hr { border: none; border-top: 1px solid var(--line-soft); margin: 0; }
+  .footer-note .pin { width: 8px; height: 8px; border: 1.5px solid var(--ink); border-radius: 50%; }
 
   @media print {
     body { background: white; }
@@ -499,6 +564,8 @@
   }
 
   @media (max-width: 1100px) {
+    .sheet { padding: 32px 22px 60px; }
+    .head h1 { font-size: 32px; }
     .pipeline { grid-template-columns: 1fr 1fr; }
     .stage.wide { grid-column: span 1; }
     .stage { margin-right: 0; margin-bottom: 32px; }
@@ -507,6 +574,9 @@
     .build-columns { grid-template-columns: 1fr; gap: 10px 0; }
     .rail { grid-template-columns: 1fr; }
     .rail-head { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .peers { grid-template-columns: 1fr; }
+    .peer-divider { width: auto; height: 1.5px; }
+    .peer-divider span { writing-mode: horizontal-tb; padding: 4px 8px; }
   }
 </style>
 </head>
@@ -514,15 +584,26 @@
 <div class="sheet">
 
   <header class="head">
-    <h1>Agentic Code Stack <em>— Skill Stack</em></h1>
+    <h1>Agentic Code Stack <em>— Quality Loop</em></h1>
     <div class="meta">
       <strong>Wire Diagram</strong>
-      Workflow · v3 · hover-enabled
+      Matt Pocock · v4 · hover-enabled
     </div>
-    <div class="sub">From a vague idea to shipped code — pipeline stages flow left → right; support rails run continuously underneath. · <a href="https://makafeli.github.io/agentic-code-stack/" style="color:var(--accent);">makafeli.github.io/agentic-code-stack</a></div>
+    <div class="sub">One skill set, one golden path. Pipeline stages flow left → right; rails run continuously underneath; the config layer holds both harnesses as peers. · <a href="https://makafeli.github.io/agentic-code-stack/" style="color:var(--accent);">makafeli.github.io/agentic-code-stack</a></div>
   </header>
 
   <p class="hint">Hover any tool to reveal its slash commands &amp; triggers</p>
+
+  <div class="flowstrip">
+    <span class="flowlabel">The loop</span>
+    <code class="flow-accent">grill</code><span class="flowarrow">→</span>
+    <code>spec</code><span class="flowarrow">→</span>
+    <code>tickets</code><span class="flowarrow">→</span>
+    <code>implement (TDD)</code><span class="flowarrow">→</span>
+    <code>review</code><span class="flowarrow">→</span>
+    <code>merge</code><span class="flowarrow">→</span>
+    <code>sweep</code>
+  </div>
 
   <!-- ── Pipeline ────────────────────────────────── -->
   <div class="sec-label">
@@ -537,28 +618,46 @@
       <span class="arrow-tip">▶</span>
       <div class="num">1</div>
       <h3>Align</h3>
-      <div class="role">Reach shared understanding</div>
+      <div class="role">Before any code</div>
       <ul>
         <li class="item">
-          <span class="name">Grill-me</span>
-          <span class="blurb">mattpocock — Claude interrogates you down a decision tree, recommending answers.</span>
+          <span class="name">Wayfinder</span>
+          <span class="blurb">Too big for one session, route unclear. Charts a map on GitHub Issues, works its tickets one at a time.</span>
           <div class="cmds">
-            <div class="cmds-label">Slash commands</div>
+            <div class="cmds-label">Command</div>
+            <code>/wayfinder</code>
+            <div class="cmds-note">Map = issue labelled wayfinder:map. Tickets = child issues. Never resolve more than one ticket per session.</div>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">Grill-me</span>
+          <span class="blurb">Interrogates you down a decision tree, one question at a time, recommending answers.</span>
+          <div class="cmds">
+            <div class="cmds-label">Commands</div>
             <code>/grill-me</code>
             <code>/grill-with-docs</code>
             <div class="cmds-label" style="margin-top:8px;">Natural language</div>
             <code>"grill me on this"</code>
             <code>"poke holes in my design"</code>
-            <code>"play devil's advocate"</code>
           </div>
         </li>
         <li class="item">
-          <span class="name">Superpowers brainstorm</span>
-          <span class="blurb">obra — Socratic discovery; auto-activates before any creative work.</span>
+          <span class="name">Grilling + Domain modeling</span>
+          <span class="blurb">When the argument is about what things are called, not what to build.</span>
           <div class="cmds">
-            <div class="cmds-label">Slash command</div>
-            <code>/superpowers:brainstorm</code>
-            <div class="cmds-note">Auto-engages when you describe a feature/component to build.</div>
+            <div class="cmds-label">Commands</div>
+            <code>/grilling</code>
+            <code>/domain-modeling</code>
+            <div class="cmds-note">Records ADRs and updates CONTEXT.md.</div>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">Prototype</span>
+          <span class="blurb">Cheap rough artifact to react to. Available before speccing.</span>
+          <div class="cmds">
+            <div class="cmds-label">Command</div>
+            <code>/prototype</code>
+            <div class="cmds-note">A rough thing to argue with beats another round of abstract discussion.</div>
           </div>
         </li>
       </ul>
@@ -569,29 +668,35 @@
       <span class="arrow-tip">▶</span>
       <div class="num">2</div>
       <h3>Spec &amp; Plan</h3>
-      <div class="role">Write it down</div>
+      <div class="role">Survive context loss</div>
       <ul>
         <li class="item">
-          <span class="name">Superpowers /write-plan</span>
-          <span class="blurb">Turns design into junior-engineer-grade task list.</span>
+          <span class="name">Wayfinder tickets</span>
+          <span class="blurb">For multi-session work the map <em>is</em> the plan. No separate document.</span>
           <div class="cmds">
-            <div class="cmds-label">Slash commands</div>
-            <code>/superpowers:write-plan</code>
-            <code>/superpowers:execute-plan</code>
-            <code>/using-superpowers</code>
-            <div class="cmds-note">Plan tasks are 2–5 min micro-units, independently grabbable.</div>
-            <div class="cmds-note">↳ Overlay (gstack): /autoplan runs CEO/design/eng/DX reviews with auto-decisions.</div>
+            <div class="cmds-label">Mechanics</div>
+            <code>map body: Destination · Notes · Decisions so far</code>
+            <code>ticket: one decision, one session</code>
+            <div class="cmds-note">Resolving clears fog — graduate what became specifiable into fresh tickets.</div>
           </div>
         </li>
         <li class="item">
-          <span class="name">/improve</span>
-          <span class="blurb">shadcn — audit the codebase → prioritized plans a cheaper model executes.</span>
+          <span class="name">improve</span>
+          <span class="blurb">Audits the codebase → prioritized plans a cheaper model executes. Read-only on source.</span>
           <div class="cmds">
-            <div class="cmds-label">Slash commands</div>
+            <div class="cmds-label">Commands</div>
             <code>/improve</code>
-            <code>/improve quick | security</code>
+            <code>/improve quick</code>
+            <code>/improve security</code>
             <code>/improve execute &lt;plan&gt;</code>
-            <div class="cmds-note">Expensive model advises; cheap model implements.</div>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">Codebase design</span>
+          <span class="blurb">Design that has to fit existing structure rather than start clean.</span>
+          <div class="cmds">
+            <div class="cmds-label">Command</div>
+            <code>/codebase-design</code>
           </div>
         </li>
       </ul>
@@ -602,27 +707,32 @@
       <span class="arrow-tip">▶</span>
       <div class="num">3</div>
       <h3>Design</h3>
-      <div class="role">Make it not look AI-made</div>
+      <div class="role">When UI is involved</div>
       <ul>
         <li class="item">
-          <span class="name">Get Design (.md)</span>
-          <span class="blurb">342 brand DESIGN.md files — Apple, Stripe, Linear, etc. Real tokens, not vibes.</span>
+          <span class="name">Design an interface</span>
+          <span class="blurb">Interface design as a first-class step, not a side effect of writing components.</span>
           <div class="cmds">
-            <div class="cmds-label">CLI</div>
+            <div class="cmds-label">Command</div>
+            <code>/design-an-interface</code>
+          </div>
+        </li>
+        <li class="item">
+          <span class="name">Get Design</span>
+          <span class="blurb">Exact tokens from 342+ brand systems. Don't invent hex values.</span>
+          <div class="cmds">
+            <div class="cmds-label">Command</div>
             <code>npx getdesign@latest add &lt;slug&gt;</code>
-            <div class="cmds-label" style="margin-top:8px;">Natural language (with skill)</div>
-            <code>"build a hero in Apple style"</code>
-            <code>"pricing page like Stripe"</code>
-            <code>"Notion warm colors + Linear minimal layout"</code>
+            <div class="cmds-note">If a DESIGN.md exists in the project root, read it first and use it verbatim.</div>
           </div>
         </li>
         <li class="item">
           <span class="name">Claude Design</span>
-          <span class="blurb">Anthropic's built-in frontend-design skill — distinctive, production-grade UI.</span>
+          <span class="blurb">Built-in frontend-design skill. Composes the UI once Get Design supplies the tokens.</span>
           <div class="cmds">
             <div class="cmds-label">Skill</div>
-            <code>frontend-design (auto-engages on UI work)</code>
-            <div class="cmds-note">↳ Overlay (gstack): /design-review · /design-html · /design-consultation</div>
+            <code>frontend-design</code>
+            <div class="cmds-note">No purple gradients, no generic emoji icons, no rounded-card-with-left-border.</div>
           </div>
         </li>
       </ul>
@@ -632,81 +742,97 @@
     <div class="stage wide">
       <div class="num">4</div>
       <h3>Build</h3>
-      <div class="role">Implement, test, ship</div>
+      <div class="role">TDD always · gates in order</div>
       <div class="build-columns">
         <div class="build-col">
           <h5>Implement</h5>
           <ul>
-        <li class="item">
-          <span class="name">/superpowers:subagent-driven-development</span>
-          <span class="blurb">Parallel implementation with built-in review.</span>
-          <div class="cmds">
-            <div class="cmds-label">Slash command</div>
-            <code>/superpowers:subagent-driven-development</code>
-          </div>
-        </li>
-        <li class="item">
-          <span class="name">code-structure</span>
-          <span class="blurb">Service Layer Architecture: Actions orchestrate domain rules, Service Layer centralizes reusable operational mechanics.</span>
-        </li>
-        <li class="item">
-          <span class="name">TDD</span>
-          <span class="blurb">Red-green-refactor enforced. Tests fail first, code follows.</span>
-          <div class="cmds">
-            <div class="cmds-label">Slash command</div>
-            <code>/superpowers:test-driven-development</code>
-          </div>
-        </li>
-        <li class="item">
-          <span class="name">Language profiles</span>
-          <span class="blurb">Per-language reviewers/test tools in overlay/languages/ — Swift (swiftui-pro…), React (typescript-reviewer + frontend-design), Java (java-reviewer + springboot-*).</span>
-        </li>
+            <li class="item">
+              <span class="name">TDD</span>
+              <span class="blurb">Failing test first, minimal code, refactor. No exceptions.</span>
+              <div class="cmds">
+                <div class="cmds-label">Command</div>
+                <code>/tdd</code>
+                <div class="cmds-note">RED → GREEN → IMPROVE. A test written after the code tests what the code does, not what it should do.</div>
+              </div>
+            </li>
+            <li class="item">
+              <span class="name">code-structure</span>
+              <span class="blurb">Actions own product rules. Services own reusable mechanics.</span>
+              <div class="cmds">
+                <div class="cmds-label">Skill</div>
+                <code>code-structure</code>
+              </div>
+            </li>
+            <li class="item">
+              <span class="name">Diagnose</span>
+              <span class="blurb">The diagnosis loop for hard bugs and perf regressions. Before guessing.</span>
+              <div class="cmds">
+                <div class="cmds-label">Command</div>
+                <code>/diagnose</code>
+              </div>
+            </li>
+            <li class="item">
+              <span class="name">Ponytail</span>
+              <span class="blurb">Standing posture, not a step. Stdlib and native before dependencies.</span>
+              <div class="cmds">
+                <div class="cmds-label">Commands</div>
+                <code>/ponytail lite | full | ultra</code>
+                <div class="cmds-note">Never simplify away validation, error handling, security, or accessibility.</div>
+              </div>
+            </li>
           </ul>
         </div>
         <div class="build-col">
-          <h5>Review &amp; Finish</h5>
+          <h5>Review &amp; finish</h5>
           <ul>
-        <li class="item">
-          <span class="name">improve-codebase-architecture</span>
-          <span class="blurb">Surface architectural friction: find shallow modules, deepen them, document decisions as ADRs.</span>
-        </li>
-        <li class="item">
-          <span class="name">Fallow</span>
-          <span class="blurb">fallow.tools — static code-health: dead code, dupes, complexity. Auto-fix preview + MCP.</span>
-          <div class="cmds">
-            <div class="cmds-label">Commands</div>
-            <code>npx fallow dead-code</code>
-            <code>npx fallow dupes --mode semantic</code>
-            <code>npx fallow health</code>
-            <code>npx fallow fix --dry-run</code>
-            <div class="cmds-note">--format json or the fallow-mcp server for agent access.</div>
-          </div>
-        </li>
-        <li class="item">
-          <span class="name">/superpowers:requesting-code-review</span>
-          <span class="blurb">Review against plan; critical issues block progress.</span>
-          <div class="cmds">
-            <div class="cmds-label">Slash command</div>
-            <code>/superpowers:requesting-code-review</code>
-          </div>
-        </li>
-        <li class="item">
-          <span class="name">CodeRabbit + /autofix</span>
-          <span class="blurb">CodeRabbit reviews the PR on GitHub; /autofix applies its review threads with per-change approval.</span>
-          <div class="cmds">
-            <div class="cmds-label">Slash command</div>
-            <code>/autofix</code>
-            <div class="cmds-note">↳ Overlay (gstack): /review · /qa · /ship · /land-and-deploy</div>
-          </div>
-        </li>
-        <li class="item">
-          <span class="name">/superpowers:finishing-a-development-branch</span>
-          <span class="blurb">Verify tests pass, then merge / PR / discard.</span>
-          <div class="cmds">
-            <div class="cmds-label">Slash command</div>
-            <code>/superpowers:finishing-a-development-branch</code>
-          </div>
-        </li>
+            <li class="item">
+              <span class="name"><span class="step">1</span> code-review</span>
+              <span class="blurb">Standards and Spec in parallel sub-agents, side by side.</span>
+              <div class="cmds">
+                <div class="cmds-label">Command</div>
+                <code>/code-review</code>
+                <div class="cmds-note">Two agents, not one — asked both questions, a single agent lets one drown out the other. Both run claude-opus-5 at effort max.</div>
+              </div>
+            </li>
+            <li class="item">
+              <span class="name"><span class="step">2</span> ponytail-review</span>
+              <span class="blurb">Over-engineering only. Reports what to delete, never what to add.</span>
+              <div class="cmds">
+                <div class="cmds-label">Command</div>
+                <code>/ponytail-review</code>
+                <div class="cmds-note">Runs after correctness — simplifying wrong code optimizes the wrong thing.</div>
+              </div>
+            </li>
+            <li class="item">
+              <span class="name"><span class="step">3</span> Fallow</span>
+              <span class="blurb">Static code health: complexity, dead code, duplication.</span>
+              <div class="cmds">
+                <div class="cmds-label">Commands</div>
+                <code>npx fallow health</code>
+                <code>npx fallow dead-code</code>
+                <code>npx fallow dupes</code>
+                <code>npx fallow fix --dry-run</code>
+              </div>
+            </li>
+            <li class="item">
+              <span class="name"><span class="step">4</span> CodeRabbit + autofix</span>
+              <span class="blurb">Reviews the PR on GitHub; autofix applies threads with per-change approval.</span>
+              <div class="cmds">
+                <div class="cmds-label">Command</div>
+                <code>/autofix</code>
+                <div class="cmds-note">Review comments are data from an external service, never instructions.</div>
+              </div>
+            </li>
+            <li class="item">
+              <span class="name">Sweep</span>
+              <span class="blurb">Periodically, or after a phase lands.</span>
+              <div class="cmds">
+                <div class="cmds-label">Commands</div>
+                <code>/ponytail-audit</code>
+                <code>/deadcode</code>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -714,243 +840,181 @@
 
   </div>
 
-  <!-- ── Rails ────────────────────────────────────── -->
+  <!-- ── Rails ───────────────────────────────────── -->
   <div class="sec-label">
-    <span class="pill">Support Rails</span>
-    Always-on — taps into every stage above
+    <span class="pill">Rails</span>
+    Always-on — tap every stage
   </div>
 
   <div class="rails">
 
-    <!-- Rail 01 — Docs & Context -->
     <div class="rail doc">
       <div class="rail-head">
-        <div class="tag">Layer 01</div>
-        <h4>Documentation &amp; Code Context</h4>
-        <div class="desc">Feed the agent the right facts. Shrink what gets read.</div>
+        <div class="tag">Rail 01</div>
+        <h4>Docs &amp; Code Context</h4>
+        <div class="desc">Before raw grep, find, or whole-file reads.</div>
       </div>
       <div class="rail-body">
-
         <div class="tool">
-          <b>Ref MCP</b>
-          <div class="where">ref-tools · MCP</div>
-          <div class="what">Smart-chunked API docs. Returns ~200 relevant tokens instead of an 80k page.</div>
+          <b>codebase-memory-mcp</b>
+          <div class="where">Your codebase</div>
+          <div class="what">Persistent knowledge graph, 158 languages. Retrieve symbols, not files.</div>
           <div class="cmds">
-            <div class="cmds-label">MCP tools (auto-invoked)</div>
-            <code>ref_search_documentation(query)</code>
-            <code>ref_read_url(url)</code>
-            <code>search_web(query)</code>
-            <div class="cmds-note">No slash command. Agent calls these when docs are needed.</div>
+            <div class="cmds-label">Tools</div>
+            <code>index_repository</code>
+            <code>search_graph · trace_path</code>
+            <code>get_code_snippet · query_graph</code>
+            <code>get_architecture · search_code</code>
+            <div class="cmds-note">Replaced both Pitlane and graphify. Index first if the project isn't indexed.</div>
           </div>
         </div>
-
         <div class="tool">
           <b>Context7</b>
-          <div class="where">Upstash · MCP + CLI</div>
-          <div class="what">Version-specific docs from source repos. Triggered by <code>use context7</code>.</div>
+          <div class="where">Other people's code</div>
+          <div class="what">Version-specific library docs, current rather than remembered.</div>
           <div class="cmds">
-            <div class="cmds-label">In prompt</div>
+            <div class="cmds-label">Triggers</div>
             <code>use context7</code>
             <code>use library /supabase/supabase</code>
-            <div class="cmds-label" style="margin-top:8px;">Slash command</div>
-            <code>/context7:docs &lt;query&gt;</code>
-            <div class="cmds-label" style="margin-top:8px;">CLI</div>
-            <code>ctx7 setup --claude</code>
-            <code>ctx7 library &lt;name&gt; &lt;query&gt;</code>
-            <code>ctx7 docs &lt;libraryId&gt; &lt;query&gt;</code>
+            <div class="cmds-note">Answers "what's the API", not "what should I build".</div>
           </div>
         </div>
-
-        <div class="tool">
-          <b>Pitlane MCP</b>
-          <div class="where">eresende · MCP</div>
-          <div class="what">Tree-sitter index of your repo. Retrieves only the symbols the agent asked for.</div>
-          <div class="cmds">
-            <div class="cmds-label">MCP tools</div>
-            <code>ensure_project_ready</code>
-            <code>investigate(query)</code>
-            <code>locate_code(symbol)</code>
-            <code>search_content(snippet)</code>
-            <code>search_files(pattern)</code>
-            <code>trace_path(from, to)</code>
-            <code>read_code_unit(id)</code>
-            <code>find_usages(symbol)</code>
-            <code>watch_project</code>
-          </div>
-        </div>
-
       </div>
     </div>
 
-    <!-- Rail 02 — Token Efficiency -->
     <div class="rail tok">
       <div class="rail-head">
-        <div class="tag">Layer 02</div>
+        <div class="tag">Rail 02</div>
         <h4>Token &amp; Output Efficiency</h4>
-        <div class="desc">Less context, less waste, longer sessions.</div>
+        <div class="desc">Caveman trims the prose. Ponytail trims the code.</div>
       </div>
       <div class="rail-body">
-
         <div class="tool">
           <b>Caveman</b>
-          <div class="where">JuliusBrussee · Skill</div>
-          <div class="what">Compresses Claude's output ~65–75%. Six modes incl. classical-Chinese (wenyan).</div>
+          <div class="where">Prose side</div>
+          <div class="what">Compresses explanation ~65–75%. Code and commits stay normal.</div>
           <div class="cmds">
-            <div class="cmds-label">Levels</div>
-            <code>/caveman lite</code>
-            <code>/caveman full</code>
-            <code>/caveman ultra</code>
-            <code>/caveman wenyan-lite</code>
-            <code>/caveman wenyan-full</code>
-            <code>/caveman wenyan-ultra</code>
-            <div class="cmds-label" style="margin-top:8px;">Independent commands</div>
-            <code>/caveman-commit</code>
-            <code>/caveman-review</code>
+            <div class="cmds-label">Commands</div>
+            <code>/caveman lite | full | ultra</code>
             <code>/caveman-stats</code>
-            <code>/caveman-stats --since 7d</code>
-            <code>/caveman-stats --share</code>
-            <div class="cmds-label" style="margin-top:8px;">Natural language</div>
-            <code>"caveman mode" / "be brief"</code>
-            <code>"stop caveman" / "normal mode"</code>
           </div>
         </div>
-
         <div class="tool">
-          <b>ponytail</b>
-          <div class="where">/ponytail · Plugin</div>
-          <div class="what">"Lazy senior dev" code discipline — stdlib/native over deps, shortest working diff. ~80% less generated code. Caveman's code-side twin.</div>
+          <b>Ponytail</b>
+          <div class="where">Code side</div>
+          <div class="what">Lazy senior dev. Roughly 80% less code on a typical task.</div>
+          <div class="cmds">
+            <div class="cmds-label">The ladder</div>
+            <code>1. does it need to exist?
+2. stdlib?
+3. native platform feature?
+4. installed dependency?
+5. one line?
+6. minimum that works</code>
+          </div>
+        </div>
+        <div class="tool">
+          <b>RTK</b>
+          <div class="where">Shell output</div>
+          <div class="what">Hook-rewritten CLI proxy — 60–90% fewer tokens on dev commands.</div>
           <div class="cmds">
             <div class="cmds-label">Commands</div>
-            <code>/ponytail lite | full | ultra</code>
-            <code>/ponytail-review</code>
-            <code>/ponytail-audit</code>
-            <code>/ponytail-debt</code>
+            <code>rtk gain</code>
+            <code>rtk discover</code>
+            <div class="cmds-note">git status → rtk git status, transparently. Zero invocation overhead.</div>
           </div>
         </div>
-
-        <div class="tool">
-          <b>graphify</b>
-          <div class="where">/graphify · Skill</div>
-          <div class="what">Codebase → knowledge graph in graphify-out/. Query the graph instead of re-reading files.</div>
-          <div class="cmds">
-            <div class="cmds-label">Commands</div>
-            <code>/graphify [path|url]</code>
-            <code>graphify query "&lt;question&gt;"</code>
-            <code>graphify explain "&lt;node&gt;"</code>
-            <code>/graphify --update</code>
-            <div class="cmds-note">If graphify-out/graph.json exists, treat codebase questions as graph queries.</div>
-          </div>
-        </div>
-
-        <div class="tool">
-          <b>Pitlane MCP</b>
-          <div class="where">eresende · MCP</div>
-          <div class="what">Cuts input tokens too — no more whole-file dumps.</div>
-          <div class="cmds">
-            <div class="cmds-label">Same MCP tools as Layer 01</div>
-            <code>read_code_unit(id)</code>
-            <code>investigate(query)</code>
-            <div class="cmds-note">Read symbols, not files. Composite responses include read_state to skip unchanged content.</div>
-          </div>
-        </div>
-
       </div>
     </div>
 
-    <!-- Rail 03 — Memory & Tracking -->
     <div class="rail mem">
       <div class="rail-head">
-        <div class="tag">Layer 03</div>
-        <h4>Memory &amp; Task Tracking</h4>
-        <div class="desc">Survive context loss. Cross-session continuity.</div>
+        <div class="tag">Rail 03</div>
+        <h4>Memory &amp; Tracking</h4>
+        <div class="desc">GitHub Issues. Not markdown TODOs.</div>
       </div>
       <div class="rail-body">
-
         <div class="tool">
           <b>GitHub Issues</b>
-          <div class="where">gh CLI + MCP</div>
-          <div class="what">Native to any GitHub repo. Reference #&lt;n&gt; in commits to auto-close. The portable default.</div>
-          <div class="cmds">
-            <div class="cmds-label">CLI</div>
-            <code>gh issue list</code>
-            <code>gh issue create --title "..."</code>
-            <code>gh issue view &lt;n&gt;</code>
-            <code>gh issue close &lt;n&gt; --comment "..."</code>
-            <code>gh issue develop &lt;n&gt; --checkout</code>
-            <div class="cmds-label" style="margin-top:8px;">MCP (github)</div>
-            <code>list_issues · issue_read · issue_write</code>
-          </div>
-        </div>
-
-        <div class="tool">
-          <b>Linear</b>
-          <div class="where">MCP + Printing Press CLI</div>
-          <div class="what">For teams on Linear. Compound SQL via the Printing Press linear CLI (local mirror, ~50ms). Use ENG-123 IDs in branches/PRs.</div>
-          <div class="cmds">
-            <div class="cmds-label">Setup</div>
-            <code>npx -y @mvanhorn/printing-press install linear</code>
-            <div class="cmds-note">Or connect the Linear MCP for read/write issues, cycles, projects.</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Rail 04 — External -->
-    <div class="rail ext">
-      <div class="rail-head">
-        <div class="tag">Layer 04</div>
-        <h4>External Data</h4>
-        <div class="desc">Live web access when training data isn't enough.</div>
-      </div>
-      <div class="rail-body">
-
-        <div class="tool">
-          <b>Bright Data CLI</b>
-          <div class="where">bdata · CLI</div>
-          <div class="what">Scrape, SERP search, and structured extraction from 40+ platforms. Anti-bot + CAPTCHA handled. 5k free reqs/month.</div>
+          <div class="where">gh CLI + GitHub MCP</div>
+          <div class="what">Wayfinder maps and tickets live here too, with native blocking.</div>
           <div class="cmds">
             <div class="cmds-label">Commands</div>
-            <code>bdata login</code>
-            <code>bdata scrape &lt;url&gt;</code>
-            <code>bdata search "&lt;query&gt;" --json</code>
-            <code>bdata pipelines &lt;type&gt; …</code>
-            <code>bdata budget</code>
-            <div class="cmds-label" style="margin-top:8px;">Install</div>
-            <code>npm i -g @brightdata/cli</code>
+            <code>gh issue list | create | view | close</code>
+            <code>gh api -X POST repos/{o}/{r}/issues/{n}/sub_issues -F sub_issue_id=&lt;id&gt;</code>
+            <div class="cmds-note">-F not -f — sub_issue_id must be an integer or the API 422s. Reference #n in a commit to auto-close.</div>
           </div>
         </div>
-
+        <div class="tool">
+          <b>ADRs &amp; CONTEXT.md</b>
+          <div class="where">Durable decisions</div>
+          <div class="what">Issues record work; they're a poor home for decisions that outlive it.</div>
+          <div class="cmds">
+            <div class="cmds-label">Where</div>
+            <code>manage_adr (codebase-memory-mcp)</code>
+            <code>docs/adr/ · CONTEXT.md</code>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Rail 05 — Agent Interfaces -->
-    <div class="rail">
+    <div class="rail ext">
       <div class="rail-head">
-        <div class="tag">NEW</div>
+        <div class="tag">Rail 04</div>
+        <h4>External Data</h4>
+        <div class="desc">Live web, SERP, platform data.</div>
+      </div>
+      <div class="rail-body">
+        <div class="tool">
+          <b>Bright Data</b>
+          <div class="where">bdata CLI + MCP</div>
+          <div class="what">Scrape, search, and 40+ structured platform pipelines.</div>
+          <div class="cmds">
+            <div class="cmds-label">Commands</div>
+            <code>bdata scrape &lt;url&gt;</code>
+            <code>bdata search "&lt;query&gt;"</code>
+            <code>bdata pipelines &lt;type&gt;</code>
+            <code>bdata budget</code>
+            <div class="cmds-note">Prefer a pipeline over a raw scrape. Check budget before a large job.</div>
+          </div>
+        </div>
+        <div class="tool">
+          <b>Webshare</b>
+          <div class="where">Proxy pool</div>
+          <div class="what">Rotating pool behind higher-volume work. Ops only, doesn't scrape.</div>
+          <div class="cmds">
+            <div class="cmds-label">Skill</div>
+            <code>proxy-manager</code>
+          </div>
+        </div>
+        <div class="tool">
+          <b>Search Console CLI</b>
+          <div class="where">Own-site data</div>
+          <div class="what">Search performance, query analysis, index status, sitemaps.</div>
+          <div class="cmds">
+            <div class="cmds-label">Install</div>
+            <code>npm i -g google-search-console-cli</code>
+            <div class="cmds-note">Service-account JSON stays outside the repo, symlinked into ~/.config.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rail api">
+      <div class="rail-head">
+        <div class="tag">Rail 05</div>
         <h4>Agent Interfaces</h4>
-        <div class="desc">Structured, compound-query service access through generated CLIs</div>
+        <div class="desc">On demand, when no MCP server exists.</div>
       </div>
       <div class="rail-body">
         <div class="tool">
           <b>Printing Press</b>
-          <div class="where">printingpress.dev</div>
-          <div class="what">Generate agent-native Go CLIs from API specs, HAR files, or URLs. One command outputs Go binary + Claude Code skill + OpenClaw skill + MCP server. Every CLI ships with local SQLite mirror, compound queries, and structured output.</div>
+          <div class="where">Generated CLIs</div>
+          <div class="what">Agent-native Go CLIs from API specs. 70+ pre-built.</div>
           <div class="cmds">
-            <div class="cmds-label">Setup</div>
-            <code>go install github.com/mvanhorn/cli-printing-press/v4/cmd/printing-press@latest</code>
-            <code>npx -y @mvanhorn/printing-press install starter-pack</code>
-            <code>git clone https://github.com/mvanhorn/cli-printing-press.git</code>
-          </div>
-        </div>
-        <div class="tool">
-          <b>Library</b>
-          <div class="where">github.com/mvanhorn/printing-press-library</div>
-          <div class="what">70+ community-built CLIs: Stripe, Linear, Notion, Slack, Hacker News, Amazon Seller, Google Flights, ESPN, and more. Browse by category or search by service name.</div>
-          <div class="cmds">
-            <div class="cmds-label">Browse</div>
-            <code>npx -y @mvanhorn/printing-press search "stripe"</code>
-            <code>npx -y @mvanhorn/printing-press install flight-goat</code>
+            <div class="cmds-label">When</div>
+            <code>repeated multi-call questions, no MCP</code>
+            <div class="cmds-note">Skip it when a dedicated MCP server already works — GitHub, Railway, Context7, codebase-memory all do.</div>
           </div>
         </div>
       </div>
@@ -958,25 +1022,71 @@
 
   </div>
 
-  <!-- Featured Opus 4.8 flow -->
-  <div class="sec-label" style="margin-top:40px;">
-    <span class="pill">Featured Flow</span>
-    Opus 4.8 · runs on top of the pipeline
+  <!-- ── Config ──────────────────────────────────── -->
+  <div class="sec-label">
+    <span class="pill">Config</span>
+    Two harnesses, side by side as peers
   </div>
-  <div class="flowstrip">
-    <code>/caveman</code><span class="flowarrow">→</span>
-    <code>/graphify</code><span class="flowarrow">→</span>
-    <code>code-structure</code><span class="flowarrow">→</span>
-    <code>improve-codebase-architecture</code><span class="flowarrow">→</span>
-    <code>/tdd</code><span class="flowarrow">→</span>
-    <code class="flow-accent">Fallow</code><span class="flowarrow">→</span>
-    <code>CodeRabbit</code>
+
+  <div class="peers">
+    <div class="peer">
+      <h4>Claude</h4>
+      <div class="entry">reads CLAUDE.md</div>
+      <pre>config/claude/
+├── CLAUDE.md
+├── agents/
+│   ├── explorer.md
+│   ├── worker.md
+│   ├── docs-researcher.md
+│   ├── standards-reviewer.md
+│   ├── spec-reviewer.md
+│   └── simplification-reviewer.md
+├── rules/common/  rules/web/
+├── hooks/
+└── settings.template.json</pre>
+    </div>
+    <div class="peer-divider"><span>peers</span></div>
+    <div class="peer">
+      <h4>Codex</h4>
+      <div class="entry">reads AGENTS.md</div>
+      <pre>config/codex/
+├── AGENTS.md
+├── agents/
+│   ├── explorer.toml
+│   ├── worker.toml
+│   ├── docs_researcher.toml
+│   ├── standards_reviewer.toml
+│   ├── spec_reviewer.toml
+│   └── simplification_reviewer.toml
+├── rules/
+└── config.template.toml</pre>
+    </div>
   </div>
+
+  <p class="note">
+    <b>Neither loads the other. Neither is canonical.</b> The six roles mirror 1:1, but the harnesses enforce them differently — Codex has a real <code>sandbox_mode</code>, Claude has only <code>disallowedTools</code>; Codex has a default-subagent-model fallback and a concurrency cap, Claude has neither. A merged definition would paper over exactly those gaps, and the merge point is where mistakes happen. <code>config/shared/role-parity.md</code> states the mapping and names every place it breaks down.
+  </p>
+
+  <table class="modeltable" style="margin-top:22px;">
+    <thead>
+      <tr><th>Where</th><th>Model</th><th>Effort</th><th>Mode</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Main loop / orchestrator</td><td><code>claude-fable-5</code></td><td>high</td><td>—</td></tr>
+      <tr><td>explorer · docs-researcher</td><td><code>claude-sonnet-5</code></td><td>medium</td><td>read-only</td></tr>
+      <tr><td>worker</td><td><code>claude-sonnet-5</code></td><td>high</td><td>write</td></tr>
+      <tr><td>standards · spec · simplification reviewers</td><td><code>claude-opus-5</code></td><td class="max">max</td><td>read-only</td></tr>
+    </tbody>
+  </table>
+
+  <p class="note">
+    <b>Fable 5 is main-loop only</b> — never a subagent. Claude has no default-subagent-model fallback, so an unpinned agent inherits the <em>session</em> model: pass <code>model:</code> explicitly on every dispatch. Reviewers run at <code>max</code>, and on Opus 5 disabling thinking at <code>xhigh</code>/<code>max</code> is a <b>400</b> — reviewers never disable thinking. Requires Claude Code ≥ <code>2.1.220</code>; below it the <code>opus</code> alias silently resolved to <code>claude-opus-4-8</code>. Opus 4.8 now survives only as the cyber-refusal fallback.
+  </p>
 
   <div class="footer-note">
     <span class="pin"></span>
-    <hr>
-    <span>Read left → right · rails active throughout · ↳ overlay = gstack/personal layer · hover for commands</span>
+    <hr />
+    <span>One skill set · gstack, superpowers, Pitlane, graphify, Linear — dropped</span>
   </div>
 
 </div>
