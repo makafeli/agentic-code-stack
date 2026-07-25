@@ -2,55 +2,83 @@
 
 **Always-on. Solves the "where were we?" problem across sessions.**
 
-LLMs forget. Context windows fill. Sessions end. Markdown TODO files rot. Track work in a real issue tracker that the whole team — and every future agent session — can read, instead of scratch files.
+LLMs forget. Context windows fill. Sessions end. Markdown TODO files rot in
+place and nobody reads them. Track work in a real issue tracker that the whole
+team — and every future agent session — can read.
+
+**GitHub Issues. That's the tracker.** No Linear, no `TODO.md`, no `MEMORY.md`.
 
 ## Tools
 
-Pick the tracker the project already uses. **GitHub Issues** is the portable default; **Linear** suits teams already on it.
+### `gh` CLI
 
-### GitHub Issues (portable default)
-
-Native to any GitHub repo — no extra install. Use the `gh` CLI or the GitHub MCP.
-
-**CLI:**
 | Command | Purpose |
 |---|---|
-| `gh issue list` | Open issues, ready to work |
-| `gh issue view <n>` | Issue detail |
-| `gh issue create --title "..." --body "..."` | New issue |
-| `gh issue comment <n> --body "..."` | Add context |
-| `gh issue close <n> --comment "..."` | Close with a reason |
-| `gh issue develop <n> --checkout` | Branch straight from an issue |
+| `gh issue list` | What's open |
+| `gh issue create` | File work |
+| `gh issue view <n>` | Read one, `--comments` for the thread |
+| `gh issue close <n> --reason completed` | Close with a real reason |
+| `gh issue edit <n>` | Update body, labels, assignee |
 
-**MCP (`github`):** `list_issues`, `issue_read`, `issue_write`, `search_issues`, `sub_issue_write` — for richer queries, sub-issues, and cross-repo work.
+### GitHub MCP
 
-**Conventions:**
-- Reference the issue in commits/PRs (`Fixes #42`) so it auto-closes on merge.
-- Use labels (`bug`, `feature`, `chore`) and milestones instead of priority files.
-- Discover work mid-task → file an issue and link it to the parent.
+`list_issues`, `issue_read`, `issue_write`, `sub_issue_write`,
+`search_issues`. Prefer these when you want structured results back rather than
+text to parse.
 
-### Linear (team alternative)
+**Sub-issues and dependencies** go through the API directly:
 
-For teams already on Linear. Two ways in:
-- **Linear MCP** — read/write issues, cycles, and projects directly.
-- **Printing Press `linear` CLI** — compound SQL queries the Linear API can't express, against a local SQLite mirror (~50ms). See Rail 05.
+```bash
+# attach a child issue (note -F, not -f — sub_issue_id must be an integer)
+gh api -X POST repos/{owner}/{repo}/issues/{n}/sub_issues -F sub_issue_id=<id>
 
-Use Linear issue IDs (`ENG-123`) in branch names and PR titles so its automation links them.
+# declare a blocking relation
+gh api -X POST repos/{owner}/{repo}/issues/{n}/dependencies/blocked_by -F issue_id=<id>
+```
+
+`-f` sends a string and the API rejects it with a 422. This bites every time.
+
+### Commits close issues
+
+Reference `#<n>` in a commit message and merging closes it. Use it — a closed
+issue with a linked commit is a better record than any changelog.
+
+## Wayfinder maps live here too
+
+A `/wayfinder` map is an issue labelled `wayfinder:map`. Its tickets are child
+issues labelled `wayfinder:research` / `prototype` / `grilling` / `task`.
+Blocking uses GitHub's native dependency relation, which means the frontier
+renders in GitHub's own UI — you can see what's takeable without opening the
+map.
+
+A ticket is claimed by **assigning it to yourself before starting work**. That
+assignee is the claim; an open unassigned ticket is fair game for a concurrent
+session.
+
+See [pipeline/01-align.md](../pipeline/01-align.md) for the full mechanics.
+
+## Durable decisions
+
+Issues record *work*. They are a poor home for decisions that outlive it.
+
+- **ADRs** — `manage_adr` in codebase-memory-mcp, or `docs/adr/` in the repo.
+- **`CONTEXT.md`** — the project's glossary and ubiquitous language.
+  `/grill-with-docs` and `/domain-modeling` both read and update it.
 
 ## Agent rules
 
-1. Track work in the project's issue tracker, not `TODO.md` / `MEMORY.md` files.
-2. When you discover follow-up work, file it as an issue and link it to the parent.
-3. Close issues with a real reason (and the resolving PR), not "done".
-4. Reference issues in commits/PRs so they link and auto-close.
+1. Discovered work mid-task → file an issue, don't inline it into the current
+   change.
+2. Close with a reason. "Done" is not a reason; "superseded by the peer-tree
+   decision" is.
+3. Reference the issue number in the commit.
+4. Never create a markdown TODO file. If you feel the urge, that's an issue.
+5. One decision lives in one place. Link to it; don't restate it.
 
 ## Anti-patterns
 
-- ❌ Creating `TODO.md` / `MEMORY.md`. Use the tracker.
-- ❌ Leaving finished work open. Stale issues clog the ready queue.
-- ❌ Vague closes ("done") with no reason or link to the resolving PR.
-
-## Cross-reference
-
-- For Linear via a local-mirror CLI → **Printing Press** (Rail 05).
-- Durable design *decisions* belong in ADRs (see `improve-codebase-architecture`, Build stage), not the issue tracker.
+- ❌ `TODO.md`, `MEMORY.md`, `NOTES.md`, or a task list in a comment block.
+- ❌ Closing issues silently at the end of a session.
+- ❌ Tracking a multi-session effort as one giant issue instead of a map plus
+  tickets.
+- ❌ `-f sub_issue_id=...` — it must be `-F`.

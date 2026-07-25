@@ -1,0 +1,86 @@
+# Codex config template — the stack-relevant subset of ~/.codex/config.toml.
+#
+# Omitted on purpose: [projects] trust levels, [desktop] preferences,
+# [marketplaces] cache paths, and the Codex Desktop runtime MCP servers
+# (node_repl, computer-use). All machine-local, none portable.
+
+model = "gpt-5.6-sol"
+model_reasoning_effort = "xhigh"
+
+approvals_reviewer = "user"
+
+# The orchestration block Claude has no equivalent for. See
+# ../shared/role-parity.md — asymmetries 2 and 3.
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 4
+default_subagent_model = "gpt-5.6-terra"
+default_subagent_reasoning_effort = "high"
+
+[features]
+hooks = true
+memories = true
+js_repl = false
+
+# --- MCP servers ---------------------------------------------------------
+# Rail 01/02. Install: see INSTALL.md.
+
+[mcp_servers.codebase-memory-mcp]
+command = "$HOME/.local/bin/codebase-memory-mcp"
+
+[mcp_servers.codebase-memory-mcp.tools.get_architecture]
+approval_mode = "approve"
+
+[mcp_servers.codebase-memory-mcp.tools.index_status]
+approval_mode = "approve"
+
+[mcp_servers.codebase-memory-mcp.tools.list_projects]
+approval_mode = "approve"
+
+[mcp_servers.codebase-memory-mcp.tools.search_graph]
+approval_mode = "approve"
+
+[mcp_servers.railway]
+command = "railway"
+args = ["mcp"]
+
+[mcp_servers.railway.tools.whoami]
+approval_mode = "approve"
+
+[mcp_servers.railway.tools.list_services]
+approval_mode = "approve"
+
+# --- Plugins -------------------------------------------------------------
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true

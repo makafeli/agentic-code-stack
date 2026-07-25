@@ -1,107 +1,100 @@
 # Rail 02 — Token & Output Efficiency
 
-**Always-on. Use during long sessions, agent-to-agent context handoffs, and any time the context window is getting tight.**
+**Always-on. Use during long sessions, agent-to-agent context handoffs, and any
+time the context window is getting tight.**
 
-Verbose output costs money and crowds the context. This rail trims output without losing technical content. A March 2026 paper found that constraining models to brief responses can *improve* accuracy by up to 26 points on certain benchmarks — verbose ≠ better.
+Verbose output costs money and crowds the context. This rail trims it without
+losing technical content. Constraining models to brief responses can *improve*
+accuracy on some benchmarks — verbose ≠ better.
+
+Two sides, and they are different problems:
+
+- **Caveman** trims the *prose* — what the agent says.
+- **Ponytail** trims the *code* — what the agent builds.
+
+Plus the input side: retrieve symbols, not files.
 
 ## Tools
 
-### Caveman — `JuliusBrussee/caveman`
+### Caveman — `mattpocock/skills`
 
-Compresses prose output ~65–75% by dropping articles, fragments, abbreviations, and pleasantries — while keeping code, function names, API names, and error strings byte-for-byte intact.
+Compresses explanation text by roughly 65–75%: drops filler, articles, and
+pleasantries while keeping full technical accuracy.
 
-**Six intensity levels:**
-
-| Level | Style |
+| Command | Effect |
 |---|---|
-| `lite` | Drop articles, fragments OK, short synonyms. Classic caveman. |
-| `full` (default) | Default caveman. Drop articles, filler, full grunt. |
-| `ultra` | Maximum compression. Telegraphic. Abbreviations everywhere. |
-| `wenyan-lite` | Semi-classical Chinese (文言文). Grammar intact, filler gone. |
-| `wenyan-full` | Full classical Chinese. Maximum classical terseness. |
-| `wenyan-ultra` | Extreme classical compression. Ancient scholar on a budget. |
+| `/caveman lite` | Light trim |
+| `/caveman full` | Default |
+| `/caveman ultra` | Maximum compression |
+| `/caveman-stats` | Report savings |
 
-**Slash commands:**
-| Command | Purpose |
+**Code and commit messages stay normal.** Compression applies to prose only —
+a caveman-compressed commit message is a bad commit message.
+
+Triggers: "caveman mode", "less tokens", "be brief".
+
+### Ponytail — `DietrichGebert/ponytail`
+
+Caveman's code-side counterpart. A lazy senior developer: the best code is the
+code never written. Roughly 80% less code on a typical task.
+
+| Command | Effect |
 |---|---|
-| `/caveman` | Activate at default `full` level |
-| `/caveman lite` | Switch to lite |
-| `/caveman ultra` | Switch to ultra |
-| `/caveman wenyan-full` | Classical Chinese mode |
-| `/caveman-commit` | Independent: terse Conventional Commits, ≤50 char subject |
-| `/caveman-review` | Independent: one-line PR comments — `L42: 🔴 bug: user null. Add guard.` |
-| `/caveman-stats` | Real session token savings + estimated $ saved |
-| `/caveman-stats --share` | Tweetable savings line |
-| `/caveman-stats --since 7d` | Window the stats |
-| `/caveman-stats --all` | Lifetime aggregation |
-
-**Natural-language activation:**
-- "talk like caveman" / "caveman mode" / "less tokens" / "be brief" → activate
-- "stop caveman" / "normal mode" → deactivate
-
-**Persistence:** level sticks until changed or session ends. Off only on explicit deactivation.
-
-**What stays normal regardless of caveman:**
-- Code (always written normally)
-- Commit messages and PR descriptions
-- Function names, API names, error strings
-- Critical warnings ("This will permanently delete...")
-
-**Example:**
-> Normal: "The reason your React component is re-rendering is likely because you're creating a new object reference on each render cycle. When you pass an inline object as a prop, React's shallow comparison sees it as a different object every time, which triggers a re-render. I'd recommend using useMemo to memoize the object."
->
-> Caveman full: "New object ref each render. Inline object prop = new ref = re-render. Wrap in useMemo."
->
-> Caveman ultra: "Inline obj prop → new ref → re-render. Memo it."
-
-### ponytail — `/ponytail` (`DietrichGebert/ponytail`)
-
-The code-side counterpart to Caveman: a "lazy senior dev" ruleset that forces the minimal working solution — skip speculative features (YAGNI), reach for stdlib / native / already-installed deps before new code, one line before fifty. Reports ~80% less generated code and 42–75% lower cost. Always-on; persists until `off`.
-
-| Command | Purpose |
-|---|---|
-| `/ponytail lite \| full \| ultra` | Set intensity (default `full`) |
+| `/ponytail lite` \| `full` \| `ultra` | Set the intensity (`full` default) |
 | `/ponytail-review` | Review a diff for over-engineering |
-| `/ponytail-audit` | Scan the whole repo for bloat to cut |
-| `/ponytail-debt` | Harvest deferred `ponytail:` shortcuts |
+| `/ponytail-audit` | Whole-repo sweep, ranked deletion plan |
 
-Never simplifies away input validation, error handling, security, or accessibility. Pair with Caveman (prose) for full output efficiency.
+The ladder — stop at the first rung that holds:
 
-### graphify — `/graphify`
+1. Does this need to exist at all? (YAGNI)
+2. Does the stdlib do it?
+3. Does a native platform feature cover it?
+4. Does an already-installed dependency solve it?
+5. Can it be one line?
+6. Only then: the minimum code that works.
 
-Turns any folder (code, docs, papers, images, video) into a queryable knowledge graph in `graphify-out/`. Token angle: query the graph instead of re-reading files — a broad "how does X work?" answer comes from one `graphify query` call, not a file sweep.
+**Never simplify away:** input validation at trust boundaries, error handling
+that prevents data loss, security controls, accessibility basics, or anything
+explicitly requested.
 
-**Install:** `uv tool install graphifyy` (or `pip install graphifyy`).
+Deliberate simplifications get a `ponytail:` comment naming the ceiling and the
+upgrade path — `# ponytail: global lock, per-account locks if throughput matters`
+— so a shortcut reads as intent rather than ignorance.
 
-| Command | Purpose |
+### codebase-memory-mcp — the input side
+
+The biggest single lever, and it works on the half Caveman and Ponytail don't
+touch: what goes *into* context.
+
+A whole-file read costs the whole file. `get_code_snippet` on a qualified name
+costs the symbol. On a large repo that is the difference between a session that
+fits and one that compacts halfway through.
+
+See [rail 01](01-docs-context.md) for the full tool set.
+
+### RTK — Rust Token Killer
+
+A hook-rewritten CLI proxy. `git status` transparently becomes `rtk git status`,
+trimming 60–90% of the tokens on dev command output. Zero overhead to invoke —
+the hook does the rewriting.
+
+`rtk gain` reports savings; `rtk discover` finds missed opportunities.
+
+## Decision matrix
+
+| Problem | Tool |
 |---|---|
-| `/graphify [path\|url]` | Build the graph (clones a GitHub URL first if given) |
-| `graphify query "<question>"` | BFS traversal — broad context (`--dfs` to trace a path) |
-| `graphify path "A" "B"` | Shortest path between two concepts |
-| `graphify explain "X"` | Plain-language explanation of one node |
-| `/graphify --update` | Incremental re-extract of changed files |
-| `/graphify --watch` | Auto-rebuild on code changes |
-| `graphify claude install` | Write an always-on `## graphify` block into the project `CLAUDE.md` |
-
-**Agent rule:** if `graphify-out/graph.json` exists and the user asks a codebase question, run `graphify query` directly — don't re-extract, don't read whole files.
-
-### Pitlane MCP (token side)
-
-Pitlane belongs to both this rail and the Docs/Context rail. From a token-efficiency perspective, its job is to **shrink input**: instead of reading 800 lines to find one function, retrieve 30 lines.
-
-See `rails/01-docs-context.md` for tool details.
-
-## When to engage
-
-- ✅ Sessions running > 1 hour
-- ✅ Context window > 60% full
-- ✅ Sub-agent / parallel agent flows where output gets injected into the parent context
-- ✅ Cost-sensitive workloads (background agents, batch processing)
-- ❌ User-facing chat where readability matters more than token count
-- ❌ First-time onboarding flows
+| Agent explains too much | `/caveman` |
+| Agent builds too much | `/ponytail` |
+| Reading whole files to answer a code question | codebase-memory-mcp |
+| Shell command output flooding context | RTK (automatic) |
+| "Is this over-built?" on a diff | `/ponytail-review` |
+| Repo has accreted layers over time | `/ponytail-audit` |
 
 ## Anti-patterns
 
-- ❌ Engaging caveman mid-explanation when the user is following along.
-- ❌ Trying to compress code. Caveman explicitly leaves code alone — don't second-guess it.
-- ❌ Forgetting it's on. If the user seems confused by your terse output, the level is wrong; switch to `lite` or deactivate.
+- ❌ Compressing code or commit messages with Caveman.
+- ❌ Using Ponytail to justify skipping validation, error handling, or security.
+- ❌ Reading whole files when a symbol query answers the question.
+- ❌ Writing paragraphs defending a simplification. If the explanation is longer
+  than the code, delete the explanation.

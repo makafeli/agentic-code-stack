@@ -1,169 +1,170 @@
 # Install & Setup
 
-One-time commands to get each tool wired into Claude Code (and most other agents). Run these once per machine, not per project. The `bd init` step is per-project.
+One-time commands per machine, not per project. Versions verified 2026-07-25 —
+see [`config/shared/external-tools.md`](config/shared/external-tools.md) for the
+pinned table.
 
-> **Important:** This stack assumes Claude Code as the primary agent. Most tools also work in Codex, Cursor, Gemini CLI, OpenCode, etc. — see each tool's docs for non-Claude setup.
+There are **no install scripts** in this repo, on purpose. A script that
+provisions a machine nobody else has is a thing that rots silently. These
+commands are short enough to read before you run them.
 
-> **Personal overlay:** the `overlay/` files reference **gstack** (a private skill suite) and harness/RTK config that are not publicly installable. A cloner can ignore or delete `overlay/`; the portable core below stands alone.
+## Prerequisites
 
----
+| | Minimum | Why |
+|---|---|---|
+| Claude Code | **`2.1.220`** | Below it the `opus` alias silently resolves to `claude-opus-4-8` regardless of the pin, so a reviewer you believe is on Opus 5 is not |
+| Node | `22.x` | |
+| `gh` CLI | any recent | Rail 03 runs on it |
 
-## Pipeline tools
-
-### Grill-me & friends (mattpocock/skills)
 ```bash
-npx skills add mattpocock/skills --skill grill-me
-npx skills add mattpocock/skills --skill grill-with-docs
-npx skills add mattpocock/skills --skill write-a-skill
+claude --version    # must be >= 2.1.220
+node --version
+gh auth status      # keyring OAuth, not a PAT — see Credentials below
 ```
 
-### Superpowers (obra)
-```
-/plugin marketplace add obra/superpowers-marketplace
-/plugin install superpowers@superpowers-marketplace
-```
-Restart Claude Code. Verify with `/help` — you should see `/superpowers:brainstorming`, `/superpowers:write-plan`, `/superpowers:execute-plan`, etc.
+## 1. Skills
 
-### improve (shadcn)
 ```bash
-npx skills add shadcn/improve
+npx skills add mattpocock/skills
 ```
 
-### Get Design (brand-design-md skill)
+Installs the core set: `wayfinder`, `grilling`, `domain-modeling`, `prototype`,
+`tdd`, `diagnosing-bugs`, `code-review`, `codebase-design`, `deadcode`,
+`design-an-interface`, `request-refactor-plan`, `write-a-skill`, `caveman`, and
+the writing set.
+
+**Track the release tag, not `main`.** Head runs a couple of weeks ahead and
+these skills are load-bearing for the whole pipeline.
+
+### Ponytail
+
 ```bash
-git clone https://github.com/zephyrwang6/brand-design-md.git
-mkdir -p ~/.claude/skills/brand-design-md
-cp brand-design-md/SKILL.md ~/.claude/skills/brand-design-md/SKILL.md
+claude plugin marketplace add DietrichGebert/ponytail
+claude plugin install ponytail@ponytail
 ```
-Restart Claude Code. The skill calls `npx getdesign@latest add <slug>` at runtime so you always get the latest spec.
 
-### Claude Design
+### SEO / GEO (optional)
 
-No install — Anthropic's built-in **`frontend-design`** skill is available in Claude Code. Pair it with Get Design tokens. (gstack adds `/design-review`, `/design-html`, `/design-consultation` if installed.)
-
-### SwiftUI / SwiftData / Swift Concurrency / Swift Testing skills (twostraws)
 ```bash
-npx skills add https://github.com/twostraws/swiftui-agent-skill --skill swiftui-pro
-npx skills add https://github.com/twostraws/swiftdata-agent-skill --skill swiftdata-pro
-npx skills add https://github.com/twostraws/swift-concurrency-agent-skill --skill swift-concurrency-pro
-npx skills add https://github.com/twostraws/swift-testing-agent-skill --skill swift-testing-pro
+npx skills add aaron-he-zhu/aaron-marketing-skills
 ```
 
-### Fallow (code-health)
-No install needed — run via `npx`. Optional MCP server for structured agent access:
+> ⚠️ Not `aaron-he-zhu/seo-geo-claude-skills` — that repo is now a signpost, and
+> installing from it gets a skill set frozen at `v9.9.12`.
+
+## 2. MCP servers
+
+### codebase-memory-mcp — Rails 01 and 02
+
 ```bash
-npx fallow            # run; subcommands: dead-code · dupes · health · fix --dry-run
-npx fallow init       # optional .fallowrc.json / fallow.toml
-# Structured agent access — add the fallow-mcp server to your MCP config, e.g.:
-claude mcp add fallow -- npx -y fallow-mcp
+npm install -g codebase-memory-mcp
+claude mcp add codebase-memory-mcp -- codebase-memory-mcp
 ```
 
----
+Then once per project:
 
-## Rail tools
+```text
+index_repository        # via the MCP tool, at first session in a repo
+```
 
-### Caveman (JuliusBrussee)
-```
-/plugin marketplace add JuliusBrussee/caveman
-/plugin install caveman@caveman
-```
-Or for any agent:
+The Codex side is already declared in
+[`config/codex/config.template.toml`](config/codex/config.template.toml).
+
+### Context7 — Rail 01
+
 ```bash
-npx skills add JuliusBrussee/caveman
+claude mcp add context7 -- npx -y @upstash/context7-mcp
 ```
-Optional: standalone hooks for status line + auto-activation:
+
+## 3. CLIs
+
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/JuliusBrussee/caveman/main/hooks/install.sh)
+npm install -g @brightdata/cli && bdata login       # Rail 04
+npm install -g google-search-console-cli            # Rail 04
+# Fallow is npx-only, no install needed:
+npx fallow health
 ```
 
-### ponytail (DietrichGebert)
-```
-/plugin marketplace add DietrichGebert/ponytail
-/plugin install ponytail@ponytail
-```
+## 4. Harness config
 
-### Memory & Tracking — GitHub Issues / Linear
-GitHub Issues needs no install — authenticate the `gh` CLI (`gh auth login`) or use the GitHub MCP. For Linear, connect the Linear MCP, or install the Printing Press `linear` CLI:
+Both trees are peers — install whichever harnesses you use, in either order.
+
+### Claude
+
 ```bash
-npx -y @mvanhorn/printing-press install linear
+cp config/claude/settings.template.json ~/.claude/settings.json
+cp config/claude/agents/*.md            ~/.claude/agents/
+cp -r config/claude/rules/*             ~/.claude/rules/
+cp config/claude/hooks/*                ~/.claude/hooks/ && chmod +x ~/.claude/hooks/*
 ```
 
-### Pitlane MCP (eresende)
-Install the binary (Arch users: `pitlane-mcp-bin` from AUR; others: build from source at `github.com/eresende/pitlane-mcp`).
+Then edit `~/.claude/settings.json`:
 
-Add to Claude Code's MCP config:
-```json
-{
-  "mcpServers": {
-    "pitlane": {
-      "command": "pitlane-mcp",
-      "env": {
-        "PITLANE_ALLOWED_ROOTS": "/path/to/your/projects"
-      }
-    }
-  }
-}
-```
+- `statusLine` — omitted from the template because it hard-codes a plugin cache
+  path with a version number in it. Add your own or leave it out.
+- `permissions.allow` — the template carries a conservative subset. Yours will
+  differ.
+- `skillSources` — machine-specific, omitted.
 
-### Ref MCP (ref-tools)
-Sign up at [ref.tools](https://ref.tools) for an API key, then:
+### Codex
+
 ```bash
-claude mcp add --scope user --transport http ref \
-  "https://api.ref.tools/mcp?apiKey=YOUR_API_KEY"
+cp config/codex/agents/*.toml ~/.codex/agents/
+cp -r config/codex/rules/*    ~/.codex/rules/
 ```
 
-### Context7 (Upstash)
-Easiest path:
+Merge [`config/codex/config.template.toml`](config/codex/config.template.toml)
+into `~/.codex/config.toml`. It is a **subset**, not a whole file — it
+deliberately omits `[projects]` trust levels, `[desktop]` preferences,
+marketplace cache paths, and the Codex Desktop runtime MCP servers.
+
+### Verify
+
 ```bash
-npx ctx7 setup --claude
+claude --version                                  # >= 2.1.220
+ls ~/.claude/agents/ | grep -c reviewer           # expect 3
+grep -l 'claude-opus-5' ~/.claude/agents/*.md     # the three reviewers
+grep 'effort' ~/.claude/agents/standards-reviewer.md   # expect max
 ```
-This authenticates via OAuth and installs the appropriate skill. Or manual MCP:
+
+## 5. Credentials
+
+**Nothing in this repo contains a credential, and nothing should.**
+
+- **GitHub** — use `gh auth login` (keyring OAuth). Do not put a PAT in
+  `settings.json`, in a shell profile, or in an MCP config. A token in a
+  settings file is one careless `cp` away from a public repo.
+- **Bright Data** — `bdata login`, stored by the CLI.
+- **Google Search Console** — symlink your service-account JSON:
+
+  ```bash
+  mkdir -p ~/.config/google-search-console-cli
+  ln -s /path/to/service-account.json \
+        ~/.config/google-search-console-cli/credentials.json
+  ```
+
+  The JSON stays outside the repo. Only the symlink command is documented.
+
+### Never commit
+
+`~/.codex/auth.json` · `history.jsonl` · `settings.local.json` ·
+`settings.json.bak` · `~/.claude/_backups/` · `projects/` · `sessions/` ·
+`tasks/` · `paste-cache/` · `uploads/` · `security/` · Codex sessions,
+snapshots, attachments, memories, sqlite, and caches · any `.env`, OAuth token,
+service-account JSON, API key, browser profile, or cookie store.
+
+## 6. Per project
+
 ```bash
-claude mcp add --scope user --header "CONTEXT7_API_KEY: YOUR_KEY" \
-  --transport http context7 https://mcp.context7.com/mcp
-```
-Or marketplace plugin:
-```
-/plugin marketplace add upstash/context7
-/plugin install context7-plugin@context7-marketplace
+cp -r /path/to/agentic-code-stack/{CLAUDE.md,AGENTS.md,pipeline,rails,config} .
 ```
 
-### Bright Data CLI
-```bash
-curl -fsSL https://cli.brightdata.com/install.sh | bash   # or: npm install -g @brightdata/cli
-bdata login
-```
-Free tier: 5,000 requests/month. `bdata pipelines list` shows the 40+ platform extractors.
+Then in the first session, index the repo with codebase-memory-mcp and confirm
+the agent has read `CLAUDE.md`.
 
-### graphify
-```bash
-uv tool install graphifyy   # or: pip install graphifyy
-```
-Optional always-on integration: `graphify claude install` writes a `## graphify` block into the project `CLAUDE.md`.
+## Optional
 
-### CodeRabbit + autofix
-Install the CodeRabbit GitHub App on your repo at [coderabbit.ai](https://coderabbit.ai/). The `autofix` skill (applies CodeRabbit review threads) ships with the stack — no separate install.
-
----
-
-## Sanity check
-
-After setup, verify in Claude Code:
-
-```
-/help
-```
-
-You should see at least these slash commands available:
-- `/superpowers:brainstorming`, `/superpowers:write-plan`, `/superpowers:execute-plan`
-- `/grill-me`, `/grill-with-docs`
-- `/caveman`, `/caveman-stats`
-- `/graphify`
-- `/context7:docs` (if plugin installed)
-
-And these MCP servers should be listed under `/mcp`:
-- `ref`
-- `context7`
-- `pitlane`
-
-CLI tools (verify in a terminal): `bdata config`, `graphify --help`, `rtk --version`, `gh auth status`.
+- **RTK** — hook-rewritten CLI proxy, 60–90% fewer tokens on dev command output.
+- **Printing Press** — Rail 05, only if you need agent-native CLIs for a service
+  with no MCP server.
+- **Get Design** — `npx getdesign@latest add <slug>`, on demand, no install.

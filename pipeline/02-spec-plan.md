@@ -1,50 +1,80 @@
 # Stage 2 — Spec & Plan
 
-**Goal:** Turn the aligned idea into durable artefacts that survive context loss between sessions.
+**Goal:** Write the aligned idea down so it survives context loss.
 
-Plans in chat windows die when the chat dies. Specs in the repo don't.
+Context windows end. Sessions get compacted. Whatever isn't written down is
+gone. A plan is not bureaucracy — it is the only part of the alignment that
+outlives the conversation that produced it.
 
 ## Tools
 
-### Superpowers planning — `obra/superpowers`
+### Wayfinder tickets — `mattpocock/skills`
 
-Turn the aligned design into a plan, then execute it with review checkpoints.
+For multi-session work, **the map is the plan**. There is no separate plan
+document.
 
-**Slash commands:**
-| Command | Purpose |
-|---|---|
-| `/superpowers:write-plan` | Turn a design into a step-by-step plan written for "an enthusiastic junior engineer with poor taste, no judgement, no project context, and an aversion to testing" — i.e., extremely explicit |
-| `/superpowers:execute-plan` | Run the plan in a separate session with review checkpoints |
-| `/using-superpowers` | Reminds the agent it has Superpowers and should use the proper workflow |
+- The map body holds Destination, Notes, and the **Decisions so far** index.
+- Each decision lives in exactly one place — its ticket. The map gists and
+  links; it never restates.
+- Resolving a ticket means posting the answer as a resolution comment, closing
+  the issue, and appending one line to Decisions so far.
+- Resolving also **clears fog**: whatever the answer made specifiable graduates
+  from "Not yet specified" into fresh tickets. Create them, then wire blocking
+  in a second pass — issues need ids before they can reference each other.
 
-The plan that comes out of `/write-plan` is broken into 2–5-minute micro-tasks, each of which can be picked up independently.
+Refer to maps and tickets by **name**, not by bare number. A wall of `#42, #43,
+#44` is illegible; titles read at a glance.
 
-### `/improve` — audit → plan (`shadcn/improve`)
+### Improve — `shadcn/improve`
 
-A read-only senior-advisor audit of the whole codebase (bugs, security, perf, test gaps, tech debt, roadmap) that emits prioritized, self-contained markdown plans for a *cheaper* model to execute. The expensive-advises / cheap-executes split keeps cost down.
+Surveys a codebase as a senior advisor and emits **prioritized, self-contained
+implementation plans for another model to execute**. Strictly read-only on
+source — it never implements, fixes, or refactors anything itself.
 
 | Command | Purpose |
 |---|---|
 | `/improve` | Full audit → prioritized plans |
-| `/improve quick` | Top findings only |
+| `/improve quick` | Faster, shallower pass |
 | `/improve security` | Security-focused audit |
-| `/improve execute <plan>` | Dispatch a cheaper executor to implement a plan |
-| `/improve reconcile` | Refresh the backlog after work lands |
+| `/improve execute <plan>` | Hand a plan to a cheaper model to run |
 
-Install: `npx skills add shadcn/improve`. Plans are plain markdown — runnable by any agent or human.
+The split is the value: an expensive model finds the work and writes the plan,
+a cheap model does it. Use it for bugs, tech debt, test coverage, migrations,
+DX, and roadmap questions ("where should this project go next?").
+
+### Codebase design — `mattpocock/skills`
+
+`/codebase-design` for design work that has to fit an existing structure rather
+than start clean. Reach for it when the constraint is "match what's already
+here," not "what's the best shape in the abstract."
+
+## What a plan needs
+
+- **The decision, not the discussion.** A plan that recounts how you got there
+  is a transcript. Write the conclusion.
+- **Enough for a junior engineer.** If a step needs context that only exists in
+  the session that wrote it, the plan has failed.
+- **Explicit blocking.** What can't start until what finishes.
+- **A stated scope boundary.** What is deliberately *not* in this effort. Scope
+  is cheaper to defend in writing than in an argument later.
 
 ## When to use which
 
 | Situation | Tool |
 |---|---|
-| Single-session feature | `/superpowers:write-plan` then `/superpowers:execute-plan` |
-| Already running Superpowers from Align | Continue with Superpowers |
-| Large multi-review plan, on this machine | `↳ Overlay (gstack):` `/autoplan` |
+| Multi-session effort with unclear route | `/wayfinder` map + tickets |
+| Existing codebase, want a work queue | `/improve` |
+| Security-specific sweep | `/improve security` |
+| New structure that must fit old structure | `/codebase-design` |
+| One-session change with a clear shape | Skip — write the issue and build it |
 
-## `↳ Overlay (gstack)` — autoplan + plan reviews
+## Anti-patterns
 
-If gstack is installed, **`/autoplan`** expands a one-line prompt into a full plan and runs CEO / design / eng / DX reviews with auto-decisions, surfacing only taste calls at a final gate. The individual reviews — **`/plan-ceo-review`**, **`/plan-eng-review`**, **`/plan-design-review`**, **`/plan-devex-review`** — and **`/cso`** can be run on their own. On Opus 4.8 this pairs with the **Workflow** orchestration tool. See `overlay/harness.md`.
-
-## Cross-reference
-
-Plan tasks can be tracked as issues (GitHub Issues / Linear — see `rails/03-memory-tracking.md`) so progress survives across sessions.
+- ❌ Planning work that fits in one session. The plan costs more than the work.
+- ❌ Restating a decision in the map that already lives in its ticket. One
+  decision, one home.
+- ❌ Letting `/improve` implement. It is read-only by design; the moment it
+  writes code, you have lost the cheap-model handoff.
+- ❌ A plan with no scope boundary. Every unbounded plan grows.
+- ❌ Markdown TODO files. Track work as GitHub Issues — see
+  [rails/03-memory-tracking.md](../rails/03-memory-tracking.md).

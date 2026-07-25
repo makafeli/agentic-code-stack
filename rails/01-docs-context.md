@@ -2,97 +2,91 @@
 
 **Always-on. Use throughout every pipeline stage.**
 
-The agent's training data is stale. Naive file reads burn tokens. This rail fixes both.
+The agent's training data is stale. Naive file reads burn tokens. This rail
+fixes both — one tool for *other people's* code, one for *yours*.
 
 ## Tools
 
 ### Context7 — `upstash/context7`
 
-Pulls **version-specific** documentation from source repositories straight into your context.
+Pulls **version-specific** documentation from source repositories straight into
+context. Use it before writing code against any library, framework, SDK, or CLI
+— including ones you think you know. Training data lags releases.
 
 **MCP tools:**
+
 | Tool | Purpose |
 |---|---|
-| `resolve-library-id` | Match a library name → Context7-compatible ID |
+| `resolve-library-id` | Match a library name → Context7 ID |
 | `query-docs` | Fetch docs for a library ID |
 
-**Slash commands (with plugin):**
-| Command | Purpose |
-|---|---|
-| `/context7:docs <query>` | Manual lookup |
-
-**CLI commands:**
-| Command | Purpose |
-|---|---|
-| `ctx7 setup --claude` | One-shot setup with OAuth |
-| `ctx7 library <name> <query>` | Resolve a library by name |
-| `ctx7 docs <libraryId> <query>` | Fetch docs by ID |
-| `ctx7 remove` | Uninstall the generated config |
-
 **Trigger phrases in chat:**
+
 - `use context7`
-- `use library /supabase/supabase for API and docs` (slash syntax skips the resolution step)
+- `use library /supabase/supabase for API and docs` — slash syntax skips
+  resolution
 - Mention a version: "How do I set up Next.js 14 middleware? use context7"
 
-**Auto-trigger:** If installed via plugin, the `documentation-lookup` skill activates automatically when the user mentions framework names (Next.js, React, Prisma, Supabase, etc.) or asks "How do I configure X?" — no `use context7` keyword required.
+**Auto-trigger:** installed as a plugin, it engages when the user mentions a
+framework name or asks "how do I configure X?" — no keyword needed.
 
-### Ref MCP — `ref-tools/ref-tools-mcp`
+**Don't use it for:** refactoring, scripts written from scratch, business-logic
+debugging, or general programming concepts. It answers "what's the API," not
+"what should I build."
 
-Documentation lookup designed for **token efficiency**. Smart-chunked ahead of time, so a query against Figma's 80k-token API gets you the right ~200 tokens, not the whole page.
+### codebase-memory-mcp — `deusdata/codebase-memory-mcp`
 
-**MCP tools:**
-| Tool | Purpose |
-|---|---|
-| `ref_search_documentation(query)` | Search across thousands of docs sites and public GitHub repos |
-| `ref_read_url(url)` | Fetch a specific page (article-tuned crawler, loads all code tabs) |
-| `search_web` | Fallback general web search |
+A persistent knowledge graph over your **own** codebase. Indexes with
+tree-sitter across 158 languages; the agent retrieves the symbols it needs
+instead of dumping whole files into context.
 
-**Behavior:** auto-invoked by the agent when documentation is needed. The user generally doesn't type anything.
-
-### Pitlane MCP — `eresende/pitlane-mcp`
-
-A token-efficient navigation substrate for your **own** codebase. Indexes once with tree-sitter; the agent retrieves only the symbols it needs instead of dumping whole files into context.
+This replaced both Pitlane (navigation) and graphify (code graph). It is now the
+only code-intelligence server in the stack.
 
 **MCP tools:**
+
 | Tool | When to use |
 |---|---|
-| `ensure_project_ready` | Call once at session start. Indexes if needed and waits for embeddings. |
-| `index_project` | Manual index trigger (prefer `ensure_project_ready`) |
-| `wait_for_embeddings` | Wait for in-progress embeddings |
-| `watch_project` | Only when the repo will change during the session |
-| `investigate` | Broad questions — "how does X work?", "where is Y implemented?" Returns source code in one call. |
-| `locate_code` | Find a symbol without pulling its source — when you only need an ID |
-| `search_content` | You know a text snippet but not which symbol |
-| `search_files` | You know a file name, test path, or directory pattern |
-| `trace_path` | Source-to-sink or config-to-effect path questions |
-| `read_code_unit` | Retrieve the exact implementation of a symbol |
-| `find_usages` | Where is this symbol used? |
+| `index_repository` | Once per project, before anything else |
+| `index_status` | Check whether the index is current |
+| `detect_changes` | Re-index only what moved |
+| `search_graph` | Find functions, classes, routes by name pattern, label, or qualified name |
+| `trace_path` | Call chains — `mode=calls \| data_flow \| cross_service` |
+| `get_code_snippet` | Exact source for a qualified name, precise ranges |
+| `query_graph` | Complex Cypher patterns |
+| `get_architecture` | Project structure and layering |
+| `search_code` | Text search, graph-augmented |
+| `manage_adr` | Architecture decision records |
 
 **Agent rules:**
-1. Call `ensure_project_ready` once at the start of each session.
-2. For broad code questions → `investigate` first (one call, returns source).
-3. Use `read_code_unit` instead of opening whole files.
-4. Use `search_files` instead of shell `find` / globbing.
-5. Use `search_content` instead of shell `grep`.
-6. The composite reads return `read_state.status` (`new` / `unchanged` / `changed`) — if `unchanged`, expand instead of rereading.
 
-**Tool tiers:** by default, Pitlane exposes the curated set above. Set `PITLANE_MCP_TOOL_TIER=all` to expose advanced primitives.
+1. If the project isn't indexed, run `index_repository` **first**.
+2. Code exploration goes through these tools before `Grep` / `Glob` / `Read`.
+3. `get_code_snippet` instead of opening a whole file.
+4. `search_graph` instead of grepping for a function name.
+5. `trace_path` instead of manually following call sites.
+
+**Grep and Glob stay fine** for text, configs, and non-code files. And always
+`Read` a file before editing it — the graph tells you where something is, not
+what the current bytes are.
 
 ## Decision matrix
 
 | Question | Tool |
 |---|---|
-| "How does this library's API work?" | Context7 (preferred) or Ref |
-| "What's the syntax for this version?" | Context7 (version-aware) |
-| "Where is the X function in our codebase?" | Pitlane `locate_code` |
-| "How does our auth flow work?" | Pitlane `investigate` |
-| "Where is symbol Y used?" | Pitlane `find_usages` |
-| "What does this article say?" | Ref `ref_read_url` |
-| "Find all files matching `*.test.ts`" | Pitlane `search_files` |
+| "How does this library's API work?" | Context7 |
+| "What's the syntax in this version?" | Context7 (version-aware) |
+| "Where is the X function in our codebase?" | `search_graph` |
+| "How does our auth flow work?" | `get_architecture` then `trace_path` |
+| "What calls this, and what does it call?" | `trace_path` |
+| "Show me the implementation of Y" | `get_code_snippet` |
+| "Find all files matching `*.test.ts`" | `Glob` — it's a file question, not a code question |
+| "What does this config file say?" | `Read` |
 
 ## Anti-patterns
 
-- ❌ Reading whole files when Pitlane can return the relevant symbol.
-- ❌ Generating API code from training memory when Context7/Ref can verify.
-- ❌ Shell-grep / shell-find when MCP tools answer the question with fewer tokens.
-- ❌ Re-reading the same symbol repeatedly. Check `read_state.status` first.
+- ❌ Reading whole files when a symbol query answers the question.
+- ❌ Generating API code from training memory when Context7 can verify it.
+- ❌ Shell `grep` / `find` for code questions.
+- ❌ Working in an unindexed project and falling back to grep for everything.
+- ❌ Editing a file you retrieved as a snippet without reading it first.
