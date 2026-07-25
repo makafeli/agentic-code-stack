@@ -74,22 +74,39 @@ domain questions, not workflow ones.
 | Business / vertical ops | `healthcare-phi-compliance`, `hipaa-compliance`, `inventory-demand-planning`, `logistics-*`, `production-scheduling`, `investor-*`, `lead-intelligence` |
 | Meta / tooling | `skillify`, `write-a-skill`, `prompt-optimizer`, `hookify-rules`, `token-budget-advisor` |
 
-## ⚠️ Reproducibility gap
+## Reproducibility gap
 
 `~/.agents/.skill-lock.json` holds **87** entries against **119** physical skill
-directories.
+directories, so **38 skills sit outside the lockfile**.
 
-**32 skills have no recorded source.** A clean machine cannot rebuild them — you
-would get 87 of 119 and no error telling you which 32 are missing. They were
-installed by hand, or from a source that has since moved, or copied in.
+Audited 2026-07-25. The lockfile only tracks what `npx skills add` installed —
+it is not a record of everything present, so most of the 38 are *unlocked*
+rather than *unknown*:
 
-This is a real gap, and it is machine hygiene rather than repo scope: this repo
-records that the gap exists and what it means. Closing it means auditing the 32
-and either recording a source or deleting them.
+| Count | Source | How it was identified |
+|---|---|---|
+| 17 | `android/skills` (Google) | Referenced in-skill; `developer.android.com` throughout |
+| 16 | `aaron-he-zhu/aaron-marketing-skills` `19.0.0` | `homepage:` declared in their own `SKILL.md` |
+| 2 | `DietrichGebert/ponytail` | Installed as a plugin, real copy under `~/.claude/plugins/cache/ponytail/` |
+| 1 | `mattpocock/skills` (`deadcode`) | In the Pocock set, missed by the lock |
+| **2** | **unattributed** | `brand-voice` (`origin: ECC`), `human-writer` (`license: MIT`) |
 
-The same class of problem produced the SEO/GEO surprise — a recorded URL that
-had silently become a signpost to somewhere else. Sources drift; unlocked skills
-drift invisibly.
+Reinstalling the first three groups through their own channel is what closes
+most of the gap:
+
+```bash
+npx skills add android/skills
+npx skills add aaron-he-zhu/aaron-marketing-skills
+claude plugin install ponytail@ponytail
+```
+
+That leaves **two** skills genuinely unaccounted for. Both work; neither can be
+rebuilt from a recorded source.
+
+The residue matters less than the mechanism: a lockfile that covers one install
+channel reads as a complete inventory when it is not. The same class of problem
+produced the SEO/GEO surprise — a recorded URL that had silently become a
+signpost. Sources drift; skills outside the lock drift invisibly.
 
 ## Dropped
 
