@@ -1,2 +1,8 @@
 .superpowers/
 .DS_Store
+
+# Handoff files carry machine state and settings dumps. They are working
+# documents, not repo content — their contents get extracted into config/
+# and the handoff itself never lands here.
+HANDOFF-*.md
+*-handoff-*.md
