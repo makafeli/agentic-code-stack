@@ -10,8 +10,9 @@ Two parts: a **pipeline** (sequential stages, idea → shipped code) and **rails
 
 Per-model prompting, effort, thinking, and refusal-fallback rules live in `overlay/rules/common/`:
 
-- **[fable-5.md](overlay/rules/common/fable-5.md)** — Claude 5 frontier pair (Fable 5 / Mythos 5): model IDs, effort dial, adaptive-thinking-only, refusals & fallback to Opus 4.8.
+- **[fable-5.md](overlay/rules/common/fable-5.md)** — Claude 5 frontier pair (Fable 5 / Mythos 5): model IDs, effort dial, adaptive-thinking-only, refusals (cyber → Opus 4.8, bio/frontier_llm/reasoning_extraction → Opus 5).
 - **[sonnet-5.md](overlay/rules/common/sonnet-5.md)** — Sonnet 5: breaking API changes vs 4.6 (adaptive thinking default, sampling params & manual `budget_tokens` now 400, ~30% heavier tokenizer), effort mapping, literal instruction-following, cyber-only refusals.
+- **[opus-5.md](overlay/rules/common/opus-5.md)** — Opus 5: drop-in Opus 4.8 upgrade, 1M context/128k max output, adaptive thinking on by default, effort mapping, cyber-only refusals falling back to Opus 4.8.
 - **[performance.md](overlay/rules/common/performance.md)** — model-selection strategy across the lineup.
 
 Match effort/thinking config to the model actually in use before applying older prompt patterns.
@@ -102,7 +103,7 @@ Track work in a real issue tracker, not markdown TODOs. Pick what the project us
 8. `/superpowers:requesting-code-review`, then CodeRabbit + `/autofix` on the PR.
 9. `/superpowers:finishing-a-development-branch` and close the issue when done.
 
-> **Personal overlay:** `overlay/` documents the gstack skills, the Claude harness (Opus 4.8 + `/autoplan` + Workflow), and per-language profiles. Featured Opus 4.8 flow: `/caveman → /graphify → code-structure → improve-codebase-architecture → /tdd → Fallow → CodeRabbit`. See `overlay/README.md`.
+> **Personal overlay:** `overlay/` documents the gstack skills, the Claude harness (Claude 5 role team + `/autoplan` + Workflow), and per-language profiles. Featured Claude 5 flow: `/caveman → /graphify → code-structure → improve-codebase-architecture → /tdd → Fallow → CodeRabbit`. See `overlay/README.md`.
 
 ---
 

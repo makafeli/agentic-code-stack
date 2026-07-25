@@ -3,15 +3,16 @@
 How to prompt, migrate to, and scaffold for **Claude Sonnet 5** (`claude-sonnet-5`).
 Distilled from Anthropic's *Prompting Claude Sonnet 5*, *What's new in Sonnet 5*, and
 the *Sonnet 4.6 → 5 migration* guidance. Behavioral defaults — user instructions still
-win. For the Claude 5 frontier pair, see [fable-5.md](fable-5.md); many of those
-patterns (act-when-you-have-enough, brevity, ground-progress-claims, subagents) apply
-here too. This file covers what is **specific to Sonnet 5**.
+win. For the Claude 5 frontier pair, see [fable-5.md](fable-5.md); for Opus 5, see
+[opus-5.md](opus-5.md); many of those patterns (act-when-you-have-enough, brevity,
+ground-progress-claims, subagents) apply here too. This file covers what is
+**specific to Sonnet 5**.
 
 ## What It Is
 
 Drop-in upgrade for Sonnet 4.6 — strongest on coding and agentic work, good out of the
 box on existing 4.6 prompts. An option when you need more than 4.6 without going
-Opus-class.
+Opus-class ([opus-5.md](opus-5.md)).
 
 - **Specs:** 1M context (default *and* max — no smaller variant), 128k max output.
 - **Pricing:** `$3/$15` per MTok; introductory `$2/$10` through **2026-08-31**.
@@ -112,8 +113,10 @@ cookie-cutter patterns. Use unique fonts, cohesive themes, and micro-interaction
 ## Refusals
 
 Sonnet 5 is the first Sonnet tier with real-time **cybersecurity** safeguards — declines
-arrive as `stop_reason: "refusal"` (HTTP 200, not an error). Narrower surface than Fable
-5's four categories. Branch on `stop_reason == "refusal"`; fall back to another model
+arrive as `stop_reason: "refusal"` (HTTP 200, not an error). Same cyber-only surface as
+Opus 5 ([opus-5.md](opus-5.md)); narrower than Fable 5's five categories. Branch on
+`stop_reason == "refusal"`; retry on a model without cyber classifiers (e.g. Opus 4.8),
+or use `fallbacks: "default"` + the `server-side-fallback-2026-07-01` beta header
 (see [fable-5.md](fable-5.md) → Refusals & Fallback).
 
 ## Interactive Coding Products

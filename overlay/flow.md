@@ -1,4 +1,4 @@
-# Default Opus 4.8 Flow
+# Default Claude 5 Flow
 
 For non-trivial work, this loop runs on top of the pipeline (with `/autoplan` + Workflow handling planning and orchestration):
 
